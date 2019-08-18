@@ -1,6 +1,6 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import cors from 'cors';
+const express = require("express");
+const bodyParser = require("body-parser");
+const cors = require("cors");
 const configuration = require("./api/configuration");
 const app = express();
 
@@ -12,13 +12,8 @@ const PORT = 3800;
 
 
 //routes
-const dbRoutes = require("./api/routes/database.routes");
-const logRoutes = require("./api/routes/logs.routes");
-const excelRoutes = require("./api/routes/excel.routes");
-
-dbRoutes(app);
-logRoutes(app);
-excelRoutes(app);
+const loginRoutes = require("./api/routes/login.routes");
+loginRoutes(app);
 
 app.listen(PORT, () => {
   console.log(`server running on port ${PORT}`)
