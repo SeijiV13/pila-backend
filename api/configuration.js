@@ -1,1 +1,1 @@
-exports.url = "";
+exports.baseUrl = "/api";

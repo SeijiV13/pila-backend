@@ -13,6 +13,8 @@ const PORT = 3800;
 
 //routes
 const loginRoutes = require("./api/routes/login.routes");
+const businessRoutes =require("./api/routes/business.routes");
+businessRoutes(app);
 loginRoutes(app);
 
 app.listen(PORT, () => {
