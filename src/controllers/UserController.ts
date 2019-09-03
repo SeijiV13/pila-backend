@@ -56,12 +56,17 @@ static newUser = async (req: Request, res: Response) => {
 
   //Try to save. If fails, the username is already in use
   const userRepository = getRepository(User);
+  const userExists = await userRepository.findOne({where: {username}});
+  if(userExists) {
+    res.status(409).send("username already exists");
+    return;
+  }
   try {
     await userRepository.save(user);
   } catch (e) {
       //writeFile for logs
     console.log(e);
-    res.status(409).send("username already in use");
+    res.status(409).send(e);
     return;
   }
 

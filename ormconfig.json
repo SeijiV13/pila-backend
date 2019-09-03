@@ -2,13 +2,18 @@
    "type": "mssql",
    "host": "localhost",
    "username": "sa",
-   "password": "sa",
+   "password": "Comsci10@",
+   "server": "PHLDEVWS109",
    "database": "PilaDB",
    "synchronize": false,
+   "dialect": "mssql",
    "logging": false,
    "entities": [
       "src/entity/**/*.ts"
    ],
+   "dialectOptions": {
+      "instanceName": "SQLEXPRESS"
+   },
    "migrations": [
       "src/migration/**/*.ts"
    ],
