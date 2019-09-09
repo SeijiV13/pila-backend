@@ -1,13 +1,14 @@
 {
    "type": "mssql",
-   "host": "localhost",
-   "username": "sa",
-   "password": "Comsci10@",
-   "server": "PHLDEVWS109",
+   "host": "pilaserver.database.windows.net",
+   "username": "PilaAdmin",
+   "password": "Pila12345678",
+   "server": "pilaserver",
    "database": "PilaDB",
    "synchronize": false,
    "dialect": "mssql",
    "logging": false,
+   "options": { "encrypt": true},
    "entities": [
       "src/entity/**/*.ts"
    ],
