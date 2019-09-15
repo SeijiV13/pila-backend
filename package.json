@@ -1,10 +1,13 @@
 {
    "name": "new-typeorm-project",
+   "main": "dist/server.js",
    "version": "0.0.1",
    "description": "Awesome project developed with TypeORM.",
    "devDependencies": {
-      "ts-node": "3.3.0",
       "@types/node": "^8.0.29",
+      "babel-preset-env": "^1.7.0",
+      "babel-register": "^6.26.0",
+      "ts-node": "3.3.0",
       "typescript": "3.3.3333"
    },
    "dependencies": {
@@ -25,7 +28,16 @@
       "ts-node-dev": "^1.0.0-pre.42",
       "typeorm": "0.2.18"
    },
+   "engines": {
+      "node": "8.11.4"
+   },
    "scripts": {
-      "start": "ts-node src/index.ts"
+      "start-dev": "ts-node src/server.ts",
+      "build-ts": "tsc -p .",
+      "postinstall": "npm run build-ts",
+      "start": "npm run serve",
+      "serve": "babel-node dist/server.js",
+      "watch-node": "nodemon dist/server.js",
+      "watch-ts": "tsc -w"
    }
 }

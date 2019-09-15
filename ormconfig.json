@@ -10,7 +10,7 @@
    "logging": false,
    "options": { "encrypt": true},
    "entities": [
-      "src/entity/**/*.ts"
+      "dist/entity/**/*.ts"
    ],
    "dialectOptions": {
       "instanceName": "SQLEXPRESS"
