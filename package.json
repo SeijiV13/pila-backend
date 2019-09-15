@@ -32,12 +32,15 @@
       "node": "8.11.4"
    },
    "scripts": {
+      "clean": "rm -rf dist && mkdir dist",
       "start-dev": "ts-node src/server.ts",
       "build-ts": "tsc -p .",
       "postinstall": "npm run build-ts",
-      "start": "npm run serve",
-      "serve": "./node_modules/.bin/babel-node  dist/server.js",
+      "serve": "babel-node  dist/server.js",
       "watch-node": "nodemon dist/server.js",
-      "watch-ts": "tsc -w"
+      "watch-ts": "tsc -w",
+      "build": "npm run build-babel",
+      "start": "npm run build && node ./dist/server.js",
+      "build-babel": "babel -d ./dist ./src -s"
    }
 }
