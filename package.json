@@ -16,7 +16,6 @@
       "@types/cors": "^2.8.6",
       "@types/helmet": "0.0.44",
       "@types/jsonwebtoken": "^8.3.3",
-      "babel-node": "0.0.1-security",
       "bcryptjs": "^2.4.3",
       "body-parser": "^1.18.1",
       "class-validator": "^0.10.0",
@@ -37,7 +36,7 @@
       "build-ts": "tsc -p .",
       "postinstall": "npm run build-ts",
       "start": "npm run serve",
-      "serve": "babel-node dist/server.js",
+      "serve": "./node_modules/.bin/babel-node  dist/server.js",
       "watch-node": "nodemon dist/server.js",
       "watch-ts": "tsc -w"
    }
