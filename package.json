@@ -7,7 +7,10 @@
       "@types/node": "^8.0.29",
       "babel-preset-env": "^1.7.0",
       "babel-register": "^6.26.0",
+      "prettier": "^1.18.2",
       "ts-node": "3.3.0",
+      "tslint-config-prettier": "^1.18.0",
+      "tslint-plugin-prettier": "^2.0.1",
       "typescript": "3.3.3333"
    },
    "dependencies": {
@@ -26,6 +29,7 @@
       "jsonwebtoken": "^8.5.1",
       "mssql": "^4.0.4",
       "reflect-metadata": "^0.1.10",
+      "swagger-ui-express": "^4.1.0",
       "ts-node-dev": "^1.0.0-pre.42",
       "typeorm": "0.2.18"
    },
@@ -42,6 +46,7 @@
       "watch-ts": "tsc -w",
       "build": "npm run build-babel",
       "start": "npm run build && node ./dist/server.js",
-      "build-babel": "babel -d ./dist ./src -s"
+      "build-babel": "babel -d ./dist ./src -s",
+      "lint": "tslint -c tslint.json 'src/**/*.ts'"
    }
 }

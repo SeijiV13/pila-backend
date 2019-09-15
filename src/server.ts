@@ -5,6 +5,7 @@ import * as bodyParser from "body-parser";
 import * as helmet from "helmet";
 import * as cors from "cors";
 import routes from "./routes";
+import * as swaggerUi from "swagger-ui-express";
 
 //Connects to the Database -> then starts the express
 createConnection()
@@ -16,6 +17,10 @@ createConnection()
     app.use(cors());
     app.use(helmet());
     app.use(bodyParser.json());
+    swaggerDocument = require('./swagger.json');
+
+    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+    app.use('/api/v1', routes);
 
     //Set all routes from routes folder
     app.use("/", routes);
