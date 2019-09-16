@@ -29,6 +29,7 @@
       "jsonwebtoken": "^8.5.1",
       "mssql": "^4.0.4",
       "reflect-metadata": "^0.1.10",
+      "swagger-jsdoc": "^3.4.0",
       "swagger-ui-express": "^4.1.0",
       "ts-node-dev": "^1.0.0-pre.42",
       "typeorm": "0.2.18"
