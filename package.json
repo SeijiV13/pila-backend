@@ -46,8 +46,8 @@
       "serve": "babel-node  dist/server.js",
       "watch-node": "nodemon dist/server.js",
       "watch-ts": "tsc -w",
-      "build": "npm run build-babel",
-      "start": "npm run build && node ./dist/server.js",
+      "build": "npm run build-ts && npm run build-babel",
+      "start": "npm run build-ts && npm run build && node ./dist/server.js",
       "build-babel": "babel -d ./dist ./src -s",
       "lint": "tslint -c tslint.json 'src/**/*.ts'"
    }
