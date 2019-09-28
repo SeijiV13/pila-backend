@@ -37,8 +37,11 @@ class AuthController {
     const token = jwt.sign({ userId: user.id, username: user.username }, config.jwtSecret, {
       expiresIn: '1h',
     });
-
+    let firstTimeLoggedIn = false;
     try {
+      if (!user.lastLoggedIn) {
+        firstTimeLoggedIn = true;
+      }
       user.lastLoggedIn = new Date();
       userRepository.save(user);
     } catch (error) {
@@ -46,7 +49,7 @@ class AuthController {
     }
 
     // Send the jwt in the response
-    res.send({ jwt: token });
+    res.send({ jwt: token, firstTimeLoggedIn, lastLoggedIn: user.lastLoggedIn });
   };
 
   public static changePassword = async (req: Request, res: Response) => {
