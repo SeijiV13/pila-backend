@@ -9,15 +9,12 @@ const router = Router();
 router.get('/', [checkJwt, checkRole(['ADMIN'])], UserController.listAll);
 
 // Get one user
-router.get('/:id([0-9]+)', [checkJwt], UserController.getOneById);
+router.get('/getone', [checkJwt], UserController.getOneByUsername);
 
 // Create a new user
-router.post('/', [checkJwt], UserController.newUser);
-
-// Edit one user
-router.patch('/:id([0-9]+)', [checkJwt], UserController.editUser);
+router.post('/', UserController.newUser);
 
 // Delete one user
-router.delete('/:id([0-9]+)', [checkJwt, checkRole(['ADMIN'])], UserController.deleteUser);
+router.delete('/', [checkJwt], UserController.deleteUser);
 
 export default router;

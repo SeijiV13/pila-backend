@@ -3,36 +3,10 @@ import { Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
 import { getRepository } from 'typeorm';
 import config from '../config/config';
+import messages from '../config/messages';
 import { Profile } from '../entity/Profile';
 
 class ProfileController {
-  public static listAll = async (req: Request, res: Response) => {
-    // Get profiles from database
-    const profileRepository = getRepository(Profile);
-    const profiles = await profileRepository.find({
-      select: ['firstName', 'middleName', 'lastName', 'dateOfBirth'], // We dont want to send the passwords on response
-    });
-
-    // Send the profiles object
-    res.send(profiles);
-  };
-
-  public static getOneById = async (req: Request, res: Response) => {
-    // Get the ID from the url
-    const userId = req.params.userId;
-
-    // Get the profile from database
-    const profileRepository = getRepository(Profile);
-    try {
-      const profile = await profileRepository.findOneOrFail(userId, {
-        select: ['firstName', 'middleName', 'lastName', 'dateOfBirth'], // We dont want to send the password on response
-      });
-      res.send(profile);
-    } catch (error) {
-      res.status(404).send('profile not found');
-    }
-  };
-
   public static newProfile = async (req: Request, res: Response) => {
     // Get parameters from the body
     const {
@@ -79,7 +53,7 @@ class ProfileController {
     }
 
     // If all ok, send 201 response
-    res.status(201).send('profile created');
+    res.status(201).send();
   };
 
   public static editProfile = async (req: Request, res: Response) => {
@@ -117,7 +91,7 @@ class ProfileController {
       profile = await profileRepository.findOneOrFail({ where: { userId: jwtPayload.userId } });
     } catch (error) {
       // If not found, send a 404 response
-      res.status(404).send('profile not found');
+      res.status(404).send({ message: messages.error.profileNotExisting });
       return;
     }
     profile.firstName = firstName;
@@ -146,25 +120,7 @@ class ProfileController {
       return;
     }
     // After all send a 204 (no content, but accepted) response
-    res.status(204).send();
-  };
-
-  public static deleteProfile = async (req: Request, res: Response) => {
-    // Get the ID from the url
-    const id = req.params.id;
-
-    const profileRepository = getRepository(Profile);
-    let profile: Profile;
-    try {
-      profile = await profileRepository.findOneOrFail(id);
-    } catch (error) {
-      res.status(404).send('profile not found');
-      return;
-    }
-    profileRepository.delete(id);
-
-    // After all send a 204 (no content, but accepted) response
-    res.status(204).send();
+    res.status(200).send({ message: messages.success.profileModified, type: 'success' });
   };
 }
 

@@ -44,6 +44,7 @@
       "build-ts": "tsc -p .",
       "postinstall": "npm run build-ts",
       "serve": "babel-node  dist/server.js",
+      "watch-node-ts": "nodemon src/server.ts",
       "watch-node": "nodemon dist/server.js",
       "watch-ts": "tsc -w",
       "build": "npm run build-ts && npm run build-babel",
