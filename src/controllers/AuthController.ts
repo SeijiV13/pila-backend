@@ -17,10 +17,14 @@ class AuthController {
     // Get user from database
     const userRepository = getRepository(User);
     let user: User;
-    try {
-      user = await userRepository.findOneOrFail({ where: { username } });
-    } catch (error) {
-      res.status(401).send();
+
+    user = await userRepository.findOne({ where: { username } });
+    if (!user) {
+      user = await userRepository.findOne({ where: { email: username } });
+      if (!user) {
+        res.status(401).send();
+        return;
+      }
     }
 
     // Check if encrypted password match

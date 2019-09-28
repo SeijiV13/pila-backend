@@ -7,5 +7,6 @@ const router = Router();
 
 router.get('/', [checkJwt], BusinessController.getBusiness);
 router.post('/', [checkJwt, checkRole(['ADMIN']), BusinessController.createBusiness]);
+router.delete('/', [checkJwt], BusinessController.deleteBusiness);
 
 export default router;
