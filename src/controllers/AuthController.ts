@@ -5,17 +5,47 @@ import { getRepository } from 'typeorm';
 
 import config from '../config/config';
 import { User } from '../entity/User';
+import { Profile } from './../entity/Profile';
 
 class AuthController {
   public static login = async (req: Request, res: Response) => {
     // Check if username and password are set
-    const { username, password } = req.body;
+    const { username, password, fbId, firstName, lastName, profileImageUrl, email } = req.body;
+    // Get user and profile from database
+    const userRepository = getRepository(User);
+    const profileRepository = getRepository(Profile);
+    // for fb login
+    if (fbId) {
+      const fbUserExist = await userRepository.findOne({ where: { fbId } });
+
+      if (fbUserExist) {
+        const existFbUser = new User();
+        existFbUser.lastLoggedIn = new Date();
+        AuthController.signJwt(fbUserExist, userRepository, res);
+        return;
+      }
+      const newFbUser = new User();
+      const newFbprofile = new Profile();
+      newFbUser.fbId = fbId;
+      newFbUser.email = email;
+      newFbprofile.firstName = firstName;
+      newFbprofile.lastName = lastName;
+      newFbprofile.profileImageUrl = profileImageUrl;
+
+      await userRepository.save(newFbUser).then(createdUser => {
+        newFbprofile.userId = createdUser.id;
+        profileRepository.save(newFbprofile);
+        AuthController.signJwt(createdUser, userRepository, res);
+      });
+
+      return;
+    }
+
+    // for user login only
     if (!(username && password)) {
       res.status(400).send();
     }
 
-    // Get user from database
-    const userRepository = getRepository(User);
     let user: User;
 
     user = await userRepository.findOne({ where: { username } });
@@ -33,23 +63,7 @@ class AuthController {
       return;
     }
 
-    // Sing JWT, valid for 1 hour
-    const token = jwt.sign({ userId: user.id, username: user.username }, config.jwtSecret, {
-      expiresIn: '1h',
-    });
-    let firstTimeLoggedIn = false;
-    try {
-      if (!user.lastLoggedIn) {
-        firstTimeLoggedIn = true;
-      }
-      user.lastLoggedIn = new Date();
-      userRepository.save(user);
-    } catch (error) {
-      res.status(401).send();
-    }
-
-    // Send the jwt in the response
-    res.send({ jwt: token, firstTimeLoggedIn, lastLoggedIn: user.lastLoggedIn });
+    AuthController.signJwt(user, userRepository, res);
   };
 
   public static changePassword = async (req: Request, res: Response) => {
@@ -90,5 +104,26 @@ class AuthController {
 
     res.status(204).send();
   };
+
+  public static signJwt(user: User, userRepository, res) {
+    // Sing JWT, valid for 1 hour
+    const token = jwt.sign(
+      { userId: user.id, username: user.username, email: user.email },
+      config.jwtSecret,
+      { expiresIn: '1h' }
+    );
+    let firstTimeLoggedIn = false;
+    try {
+      if (!user.lastLoggedIn) {
+        firstTimeLoggedIn = true;
+      }
+      user.lastLoggedIn = new Date();
+      userRepository.save(user);
+    } catch (error) {
+      res.status(401).send();
+    }
+    // Send the jwt in the response
+    res.send({ jwt: token, firstTimeLoggedIn, lastLoggedIn: user.lastLoggedIn });
+  }
 }
 export default AuthController;
