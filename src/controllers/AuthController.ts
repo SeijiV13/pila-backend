@@ -28,13 +28,18 @@ class AuthController {
       const newFbprofile = new Profile();
       newFbUser.fbId = fbId;
       newFbUser.email = email;
+      newFbUser.username = '';
+      newFbUser.isVerified = 0;
+      newFbUser.status = 'Active';
+      newFbUser.dateCreated = new Date();
+      newFbUser.role = '';
       newFbprofile.firstName = firstName;
       newFbprofile.lastName = lastName;
       newFbprofile.profileImageUrl = profileImageUrl;
 
-      await userRepository.save(newFbUser).then(createdUser => {
+      await userRepository.save(newFbUser).then(async createdUser => {
         newFbprofile.userId = createdUser.id;
-        profileRepository.save(newFbprofile);
+        await profileRepository.save(newFbprofile);
         AuthController.signJwt(createdUser, userRepository, res);
       });
 
