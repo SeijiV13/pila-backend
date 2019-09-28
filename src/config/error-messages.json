@@ -1,0 +1,4 @@
+{
+    "usernameExists": "Oops! username already exists, please use another one.",
+    "incorrecUserPassword": "You have entered an incorrect username or password."
+}
