@@ -1,5 +1,5 @@
 import * as bcrypt from 'bcryptjs';
-import { IsNotEmpty, Length } from 'class-validator';
+import { IsNotEmpty, MaxLength } from 'class-validator';
 import {
   Column,
   CreateDateColumn,
@@ -12,12 +12,13 @@ import {
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
-  public id: number;
+  public id: string;
   @Column()
+  @MaxLength(150)
   public email: string;
   @Column()
   @IsNotEmpty()
-  @Length(50)
+  @MaxLength(50)
   public username: string;
   @Column()
   public password: string;

@@ -2,6 +2,7 @@ import { validate } from 'class-validator';
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 
+import { Profile } from '../entity/Profile';
 import { User } from '../entity/User';
 
 class UserController {
@@ -26,6 +27,7 @@ class UserController {
       const user = await userRepository.findOneOrFail(id, {
         select: ['id', 'username', 'role'], // We dont want to send the password on response
       });
+      res.send(user);
     } catch (error) {
       res.status(404).send('User not found');
     }
@@ -55,13 +57,21 @@ class UserController {
 
     // Try to save. If fails, the username is already in use
     const userRepository = getRepository(User);
+    const profileRepository = getRepository(Profile);
     const userExists = await userRepository.findOne({ where: { username } });
     if (userExists) {
       res.status(409).send('username already exists');
       return;
     }
     try {
-      await userRepository.save(user);
+      await userRepository.save(user).then(async createdUser => {
+        const profile = new Profile();
+        profile.userId = createdUser.id;
+        profile.firstName = '';
+        profile.lastName = '';
+        profile.middleName = '';
+        await profileRepository.save(profile);
+      });
     } catch (e) {
       // writeFile for logs
       console.log(e);
@@ -94,6 +104,7 @@ class UserController {
     // Validate the new values on model
     user.username = username;
     user.role = role;
+    user.dateModified = new Date();
     const errors = await validate(user);
     if (errors.length > 0) {
       res.status(400).send(errors);

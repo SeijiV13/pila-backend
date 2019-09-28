@@ -34,6 +34,13 @@ class AuthController {
       expiresIn: '1h',
     });
 
+    try {
+      user.lastLoggedIn = new Date();
+      userRepository.save(user);
+    } catch (error) {
+      res.status(401).send();
+    }
+
     // Send the jwt in the response
     res.send({ jwt: token });
   };
