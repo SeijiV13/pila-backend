@@ -44,7 +44,7 @@ class UserController {
     user.password = password;
     user.email = email;
     user.role = '';
-    user.isVerified = 0;
+    user.isVerified = true;
     user.status = 'Active';
     user.dateCreated = new Date();
 

@@ -29,7 +29,7 @@ class AuthController {
       newFbUser.fbId = fbId;
       newFbUser.email = email;
       newFbUser.username = '';
-      newFbUser.isVerified = 0;
+      newFbUser.isVerified = true;
       newFbUser.status = 'Active';
       newFbUser.dateCreated = new Date();
       newFbUser.role = '';

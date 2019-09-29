@@ -29,7 +29,7 @@ export class User {
   @Column()
   public googleId: string;
   @Column()
-  public isVerified: number;
+  public isVerified: boolean;
   @Column()
   public status: string;
   @Column()
