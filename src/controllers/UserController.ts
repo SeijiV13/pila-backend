@@ -26,8 +26,9 @@ class UserController {
     try {
       const user = await userRepository.findOneOrFail({
         select: ['id', 'username', 'role'],
-        where: { username }, // We dont want to send the password on response
+        where: [{ username }, { email: username }], // We dont want to send the password on response
       });
+
       const profile = await profileRepository.findOneOrFail({ where: { userId: user.id } });
 
       res.send({ user, profile });

@@ -111,6 +111,7 @@ class AuthController {
   };
 
   public static signJwt(user: User, userRepository, res) {
+    const profileRepository = getRepository(Profile);
     // Sing JWT, valid for 1 hour
     const token = jwt.sign(
       { userId: user.id, username: user.username, email: user.email },
@@ -123,12 +124,21 @@ class AuthController {
         firstTimeLoggedIn = true;
       }
       user.lastLoggedIn = new Date();
-      userRepository.save(user);
+      userRepository.save(user).then((loggedUser: User) => {
+        // Send the jwt in the response
+        profileRepository.findOne({ where: { userId: loggedUser.id } }).then(userProfile => {
+          res.send({
+            jwt: token,
+            // tslint:disable-next-line: object-literal-sort-keys
+            firstTimeLoggedIn,
+            lastLoggedIn: user.lastLoggedIn,
+            userProfile,
+          });
+        });
+      });
     } catch (error) {
       res.status(401).send();
     }
-    // Send the jwt in the response
-    res.send({ jwt: token, firstTimeLoggedIn, lastLoggedIn: user.lastLoggedIn });
   }
 }
 export default AuthController;
