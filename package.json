@@ -32,6 +32,7 @@
       "swagger-jsdoc": "^3.4.0",
       "swagger-ui-express": "^4.1.0",
       "ts-node-dev": "^1.0.0-pre.42",
+      "tslint": "^5.20.0",
       "typeorm": "0.2.18"
    },
    "engines": {
@@ -43,10 +44,11 @@
       "build-ts": "tsc -p .",
       "postinstall": "npm run build-ts",
       "serve": "babel-node  dist/server.js",
+      "watch-node-ts": "nodemon src/server.ts",
       "watch-node": "nodemon dist/server.js",
       "watch-ts": "tsc -w",
-      "build": "npm run build-babel",
-      "start": "npm run build && node ./dist/server.js",
+      "build": "npm run build-ts && npm run build-babel",
+      "start": "npm run build-ts && npm run build && node ./dist/server.js",
       "build-babel": "babel -d ./dist ./src -s",
       "lint": "tslint -c tslint.json 'src/**/*.ts'"
    }
