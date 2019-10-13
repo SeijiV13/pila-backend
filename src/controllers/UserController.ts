@@ -65,10 +65,10 @@ class UserController {
     const userExists = await userRepository.findOne({ where: { username } });
     const emailExists = await userRepository.findOne({ where: { email } });
     if (userExists) {
-      res.status(409).send({ message: messages.error.usernameExists, type: 'error' });
+      res.status(500).send({ message: messages.error.usernameExists, type: 'error' });
       return;
     } else if (emailExists) {
-      res.status(409).send({ message: messages.error.emailExists, type: 'error' });
+      res.status(500).send({ message: messages.error.emailExists, type: 'error' });
       return;
     }
     try {
