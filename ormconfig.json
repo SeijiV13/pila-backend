@@ -1,8 +1,8 @@
 {
    "type": "mssql",
-   "host": "pilaserver.database.windows.net",
-   "username": "PilaAdmin",
-   "password": "Pila12345678",
+   "host": "pila-server.database.windows.net",
+   "username": "pilaAdmin",
+   "password": "LOn0un&2CZKr19X",
    "server": "pilaserver",
    "database": "PilaDB",
    "synchronize": false,
@@ -10,7 +10,7 @@
    "logging": false,
    "options": { "encrypt": true},
    "entities": [
-      "dist/entity/**/*.js"
+      "src/entity/**/*.ts"
    ],
    "dialectOptions": {
       "instanceName": "SQLEXPRESS"

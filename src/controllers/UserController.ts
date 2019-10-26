@@ -26,8 +26,9 @@ class UserController {
     try {
       const user = await userRepository.findOneOrFail({
         select: ['id', 'username', 'role'],
-        where: { username }, // We dont want to send the password on response
+        where: [{ username }, { email: username }], // We dont want to send the password on response
       });
+
       const profile = await profileRepository.findOneOrFail({ where: { userId: user.id } });
 
       res.send({ user, profile });
@@ -44,7 +45,7 @@ class UserController {
     user.password = password;
     user.email = email;
     user.role = '';
-    user.isVerified = 0;
+    user.isVerified = true;
     user.status = 'Active';
     user.dateCreated = new Date();
 
@@ -64,10 +65,10 @@ class UserController {
     const userExists = await userRepository.findOne({ where: { username } });
     const emailExists = await userRepository.findOne({ where: { email } });
     if (userExists) {
-      res.status(409).send({ message: messages.error.usernameExists, type: 'error' });
+      res.status(500).send({ message: messages.error.usernameExists, type: 'error' });
       return;
     } else if (emailExists) {
-      res.status(409).send({ message: messages.error.emailExists, type: 'error' });
+      res.status(500).send({ message: messages.error.emailExists, type: 'error' });
       return;
     }
     try {
