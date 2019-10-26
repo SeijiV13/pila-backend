@@ -6,6 +6,7 @@ import { getRepository } from 'typeorm';
 import config from '../config/config';
 import { User } from '../entity/User';
 import { Profile } from './../entity/Profile';
+import messages from '../config/messages';
 
 class AuthController {
   public static login = async (req: Request, res: Response) => {
@@ -64,7 +65,7 @@ class AuthController {
 
     // Check if encrypted password match
     if (!user.checkIfUnencryptedPasswordIsValid(password)) {
-      res.status(404).send();
+      res.status(404).send({ message: messages.error.incorrecUserPassword, error: 'error' });
       return;
     }
 
