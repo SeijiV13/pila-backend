@@ -58,14 +58,14 @@ class AuthController {
     if (!user) {
       user = await userRepository.findOne({ where: { email: username } });
       if (!user) {
-        res.status(404).send();
+        res.status(404).send({ message: messages.error.incorrecUserPassword, type: 'error' });
         return;
       }
     }
 
     // Check if encrypted password match
     if (!user.checkIfUnencryptedPasswordIsValid(password)) {
-      res.status(404).send({ message: messages.error.incorrecUserPassword, error: 'error' });
+      res.status(404).send({ message: messages.error.incorrecUserPassword, type: 'error' });
       return;
     }
 
