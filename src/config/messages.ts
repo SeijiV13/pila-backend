@@ -7,6 +7,7 @@ export default {
     usernameExists: 'Oops! username already exists, please use another one.',
   },
   success: {
+    profileImageUploaded: 'Your Profile image has been uploaded successfully.',
     profileModified: 'You have successfully modified your profile.',
     userCreated: 'You have successfully created your account!',
     userDeleted: 'You have successfully deleted the account.',
