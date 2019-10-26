@@ -156,7 +156,7 @@ class ProfileController {
 
     profile.profileImageUrl = result.url;
     profileRepository.save(profile);
-    res.send(result).status(201);
+    res.send({ message: messages.success.profileImageUploaded, type: 'success' }).status(201);
   };
 }
 
