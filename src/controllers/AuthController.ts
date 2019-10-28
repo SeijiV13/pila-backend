@@ -7,7 +7,6 @@ import config from '../config/config';
 import messages from '../config/messages';
 import { User } from '../entity/User';
 import { Profile } from './../entity/Profile';
-import messages from '../config/messages';
 
 class AuthController {
   public static login = async (req: Request, res: Response) => {
