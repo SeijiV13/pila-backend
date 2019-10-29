@@ -65,7 +65,8 @@ class BusinessMenuController {
     }
 
     try {
-      await businessMenuRepository.save(businessMenu);
+      const createdBusiness = await businessMenuRepository.save(businessMenu);
+      res.status(200).send(createdBusiness);
     } catch (e) {
       // writeFile for logs
       console.log(e);
