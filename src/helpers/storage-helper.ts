@@ -33,7 +33,7 @@ export class StorageHelper {
     const sasUrl = blobService.getUrl(containerName, blobName, token);
   }
 
-  public uploadFileToBlob(directoryPath, file) {
+  public uploadFileToBlob(directoryPath, file, fileName) {
     return new Promise((resolve, reject) => {
       const blobName = this.getBlobName(file.originalname);
       const stream = getStream(file.buffer);
@@ -45,7 +45,7 @@ export class StorageHelper {
       );
       blobService.createBlockBlobFromStream(
         this.azureStorageConfig.containerName,
-        `${directoryPath}/profileImage.png`,
+        `${directoryPath}/${fileName}`,
         stream,
         streamLength,
         err => {
@@ -55,9 +55,9 @@ export class StorageHelper {
             resolve({
               filename: blobName,
               originalname: file.originalname,
-              path: `${this.azureStorageConfig.containerName}/${directoryPath}/profileImage.png`,
+              path: `${this.azureStorageConfig.containerName}/${directoryPath}/${fileName}`,
               size: streamLength,
-              url: `${this.azureStorageConfig.blobURL}${this.azureStorageConfig.containerName}/${directoryPath}/profileImage.png`,
+              url: `${this.azureStorageConfig.blobURL}/${this.azureStorageConfig.containerName}/${directoryPath}/${fileName}`,
             });
           }
         }

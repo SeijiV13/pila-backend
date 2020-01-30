@@ -1,4 +1,4 @@
-import { IsNotEmpty, Length } from 'class-validator';
+import { IsNotEmpty, Length, MaxLength } from 'class-validator';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
@@ -7,13 +7,13 @@ export class Business {
   public id: string;
 
   @Column()
-  @Length(20)
+  @MaxLength(20)
   @IsNotEmpty()
   public name: string;
   @Column()
-  public userId: string;
+  public description: string;
   @Column()
-  public category: string;
+  public categoryId: string;
   @Column()
   public logoImageUrl: string;
   @Column()

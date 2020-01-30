@@ -142,7 +142,8 @@ class ProfileController {
 
     const result: any = await ProfileController.storageHelper.uploadFileToBlob(
       `${res.locals.jwtPayload.userId}/images`,
-      file
+      file,
+      'profileImage.png'
     );
     const profileRepository = getRepository(Profile);
     let profile: Profile;
