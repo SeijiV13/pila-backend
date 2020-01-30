@@ -7,6 +7,8 @@ export default {
     usernameExists: 'Oops! username already exists, please use another one.',
   },
   success: {
+    businessCategoryCreated: 'You have successfully created a new business category',
+    businessCategoryUpdated: 'You have successfully updated the business category',
     profileImageUploaded: 'Your Profile image has been uploaded successfully.',
     profileModified: 'You have successfully modified your profile.',
     userCreated: 'You have successfully created your account!',

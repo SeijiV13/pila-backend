@@ -69,7 +69,7 @@ class ProfileController {
       res.locals.jwtPayload = jwtPayload;
     } catch (error) {
       // If token is not valid, respond with 401 (unauthorized)
-      res.status(401).send();
+      res.status(401).send(error);
       return;
     }
 
