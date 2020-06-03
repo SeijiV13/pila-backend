@@ -8,13 +8,13 @@ export class LoginUserInput {
   @Field()
   public password: string;
 
-  @Field({ nullable: true})
+  @Field({ nullable: true })
   public fbId: string;
 
   @Field({ nullable: true })
   public firstName: string;
-  @Field({ nullable: true})
+  @Field({ nullable: true })
   public lastName: string;
-  @Field({ nullable: true})
+  @Field({ nullable: true })
   public email: string;
 }

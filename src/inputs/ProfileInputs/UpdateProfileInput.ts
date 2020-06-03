@@ -12,14 +12,14 @@ export class UpdateProfileInput {
   public dateOfBirth: string;
   @Field({ nullable: true })
   public gender: string;
-  @Field({ nullable: true})
+  @Field({ nullable: true })
   public mobileNumber: string;
-  @Field({ nullable: true})
+  @Field({ nullable: true })
   public country: string;
-  @Field({ nullable: true})
+  @Field({ nullable: true })
   public state: string;
-  @Field({ nullable: true})
+  @Field({ nullable: true })
   public city: string;
-  @Field({ nullable: true})
+  @Field({ nullable: true })
   public zipCode: string;
 }
