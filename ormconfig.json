@@ -5,7 +5,7 @@
    "password": "LOn0un&2CZKr19X",
    "server": "pilaserver",
    "database": "PilaDB",
-   "synchronize": false,
+   "synchronize": true,
    "dialect": "mssql",
    "logging": false,
    "options": { "encrypt": true},

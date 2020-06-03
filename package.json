@@ -19,13 +19,16 @@
       "@types/cors": "^2.8.6",
       "@types/helmet": "0.0.44",
       "@types/jsonwebtoken": "^8.3.3",
+      "apollo-server": "^2.14.1",
       "azure-storage": "^2.10.3",
       "babel-cli": "^6.26.0",
       "bcryptjs": "^2.4.3",
       "body-parser": "^1.18.1",
       "class-validator": "^0.10.0",
       "cors": "^2.8.5",
-      "express": "^4.15.4",
+      "express": "^4.17.1",
+      "express-graphql": "^0.9.0",
+      "graphql": "^15.0.0",
       "helmet": "^3.20.1",
       "into-stream": "^5.1.1",
       "jsonwebtoken": "^8.5.1",
@@ -36,8 +39,9 @@
       "swagger-ui-express": "^4.1.0",
       "ts-node-dev": "^1.0.0-pre.42",
       "tslint": "^5.20.0",
+      "type-graphql": "^1.0.0-rc.2",
       "typeorm": "0.2.18",
-      "ws": "^7.2.0"
+      "ws": "^7.3.0"
    },
    "engines": {
       "node": "8.11.4"
@@ -49,6 +53,7 @@
       "postinstall": "npm run build-ts",
       "serve": "babel-node  dist/server.js",
       "watch-node-ts": "nodemon src/server.ts",
+      "start-graph": "nodemon -w src --ext ts --exec ts-node src/server.ts",
       "watch-node": "nodemon dist/server.js",
       "watch-ts": "tsc -w",
       "build": "npm run build-ts && npm run build-babel",
