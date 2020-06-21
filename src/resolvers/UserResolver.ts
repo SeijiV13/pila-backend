@@ -16,8 +16,8 @@ export class UserResolver {
 
   @Mutation(() => User)
   public async createUser(@Arg('data') data: CreateUserInput) {
-    const user = User.create(data);
-    const profile = Profile.create({ firstName: '', middleName: '', lastName: '' });
+    const user = await User.create(data);
+    const profile = await Profile.create({ firstName: '', middleName: '', lastName: '' });
     user.role = '';
     user.isVerified = true;
     user.status = 'Active';
