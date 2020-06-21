@@ -48,4 +48,28 @@ export class RestaurantResolver {
     await restaurant.save();
     return restaurant;
   }
+
+  @Mutation(() => Restaurant)
+  public async activateRestaurant(@Arg('id') id: string) {
+    const restaurant = await Restaurant.findOne({ where: { id } });
+
+    if (!restaurant) {
+      throw new Error('Restaurant not found!');
+    }
+    restaurant.isActive = true;
+    await restaurant.save();
+    return restaurant;
+  }
+
+  @Mutation(() => Restaurant)
+  public async approveRestaurant(@Arg('id') id: string) {
+    const restaurant = await Restaurant.findOne({ where: { id } });
+
+    if (!restaurant) {
+      throw new Error('Restaurant not found!');
+    }
+    restaurant.isApproved = true;
+    await restaurant.save();
+    return restaurant;
+  }
 }
