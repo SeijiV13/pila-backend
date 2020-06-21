@@ -3,6 +3,7 @@ import 'reflect-metadata';
 import { buildSchema } from 'type-graphql';
 import { createConnection } from 'typeorm';
 import { AuthResolver } from './resolvers/AuthResolver';
+import { BusinessResolver } from './resolvers/BusinessResolver';
 import { ProfileResolver } from './resolvers/ProfileResolver';
 import { RestaurantResolver } from './resolvers/RestaurantResolver';
 import { UserResolver } from './resolvers/UserResolver';
@@ -11,7 +12,7 @@ import { UserResolver } from './resolvers/UserResolver';
 async function main() {
   const connection = await createConnection();
   const schema = await buildSchema({
-    resolvers: [UserResolver, ProfileResolver, AuthResolver, RestaurantResolver],
+    resolvers: [UserResolver, ProfileResolver, AuthResolver, RestaurantResolver, BusinessResolver],
   });
   const server = new ApolloServer({ schema });
   server

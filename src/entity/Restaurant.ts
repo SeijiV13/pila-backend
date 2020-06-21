@@ -1,14 +1,17 @@
 import { Field, ID, ObjectType } from 'type-graphql';
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Business } from './Business';
 
 @Entity({ name: 'Restaurant', synchronize: true })
 @ObjectType()
 export class Restaurant extends BaseEntity {
-  @PrimaryGeneratedColumn('increment', { name: 'Id' })
+  @PrimaryGeneratedColumn('uuid', { name: 'Id' })
   @Field(() => ID)
   public id: string;
 
   @Column({ name: 'BusinessId', type: 'nvarchar', length: 100 })
+  @ManyToOne(type => Business)
+  @JoinColumn()
   @Field(() => String)
   public businessId: string;
 
