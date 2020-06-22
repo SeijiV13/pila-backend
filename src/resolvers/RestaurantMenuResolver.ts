@@ -21,7 +21,7 @@ export class RestaurantMenuResolver {
 
   @Query(() => [RestaurantMenu])
   public async getRestaurantMenusByRestau(@Arg('restaurantId') restaurantId: string) {
-    const restaurantMenu = await RestaurantMenu.find({ where: restaurantId });
+    const restaurantMenu = await RestaurantMenu.find({ where: { restaurantId } });
     return restaurantMenu;
   }
 

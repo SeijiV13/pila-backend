@@ -5,7 +5,7 @@ export class CreateRestaurantMenuInput {
   @Field()
   public restaurantId: string;
 
-  @Field(() => String)
+  @Field()
   public menuName: string;
 
   @Field()
