@@ -5,6 +5,7 @@ import { createConnection } from 'typeorm';
 import { AuthResolver } from './resolvers/AuthResolver';
 import { BusinessResolver } from './resolvers/BusinessResolver';
 import { ProfileResolver } from './resolvers/ProfileResolver';
+import { RestaurantMenuResolver } from './resolvers/RestaurantMenuResolver';
 import { RestaurantResolver } from './resolvers/RestaurantResolver';
 import { RestaurantTypeResolver } from './resolvers/RestaurantTypeResolver';
 import { UserResolver } from './resolvers/UserResolver';
@@ -21,6 +22,7 @@ async function main() {
       RestaurantResolver,
       BusinessResolver,
       RestaurantTypeResolver,
+      RestaurantMenuResolver,
     ],
   });
   const server = new ApolloServer({ schema });
