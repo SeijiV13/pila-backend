@@ -25,4 +25,10 @@ export class UpdateRestaurantInput {
 
   @Field()
   public zipCode: string;
+
+  @Field()
+  public longitudes: number;
+
+  @Field()
+  public latitudes: number;
 }

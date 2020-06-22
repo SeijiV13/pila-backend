@@ -1,10 +1,12 @@
-import { ApolloServer, AuthenticationError } from 'apollo-server';
+import { ApolloServer } from 'apollo-server';
 import 'reflect-metadata';
 import { buildSchema } from 'type-graphql';
 import { createConnection } from 'typeorm';
 import { AuthResolver } from './resolvers/AuthResolver';
 import { BusinessResolver } from './resolvers/BusinessResolver';
 import { ProfileResolver } from './resolvers/ProfileResolver';
+import { RestaurantMenuGroupCategoryResolver } from './resolvers/RestaurantMenuGroupCategoryResolver';
+import { RestaurantMenuGroupResolver } from './resolvers/RestaurantMenuGroupResolver';
 import { RestaurantMenuResolver } from './resolvers/RestaurantMenuResolver';
 import { RestaurantResolver } from './resolvers/RestaurantResolver';
 import { RestaurantTypeResolver } from './resolvers/RestaurantTypeResolver';
@@ -23,6 +25,8 @@ async function main() {
       BusinessResolver,
       RestaurantTypeResolver,
       RestaurantMenuResolver,
+      RestaurantMenuGroupCategoryResolver,
+      RestaurantMenuGroupResolver,
     ],
   });
   const server = new ApolloServer({

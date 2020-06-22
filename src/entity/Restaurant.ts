@@ -43,6 +43,14 @@ export class Restaurant extends BaseEntity {
   @Field(() => String)
   public zipCode: string;
 
+  @Column({ name: 'Longitudes', type: 'decimal' })
+  @Field(() => Number)
+  public longitudes: number;
+
+  @Column({ name: 'Latitudes', type: 'decimal' })
+  @Field(() => Number)
+  public latitudes: number;
+
   @Column({ name: 'IsDeleted', type: 'bit' })
   @Field(() => Boolean)
   public isDeleted: boolean;
