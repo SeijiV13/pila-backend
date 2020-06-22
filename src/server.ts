@@ -1,4 +1,4 @@
-import { ApolloServer } from 'apollo-server';
+import { ApolloServer, AuthenticationError } from 'apollo-server';
 import 'reflect-metadata';
 import { buildSchema } from 'type-graphql';
 import { createConnection } from 'typeorm';
@@ -25,7 +25,14 @@ async function main() {
       RestaurantMenuResolver,
     ],
   });
-  const server = new ApolloServer({ schema });
+  const server = new ApolloServer({
+    context: ({ req }) => {
+      // get the user token from the headers
+      // try to retrieve a user with the token
+      return req;
+    },
+    schema,
+  });
   server
     .listen(process.env.PORT || 3000, () => {
       console.log('Server has started!');
