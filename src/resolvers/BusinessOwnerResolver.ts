@@ -1,7 +1,8 @@
-import { Arg, Mutation, Query, Resolver } from 'type-graphql';
+import { Arg, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql';
 import { UpdateBusinessOwnerInput } from '../inputs/BusinessOwnerInputs/UpdateBusinessOwnerInput';
 import { BusinessOwner } from './../entity/BusinessOwner';
 import { CreateBusinessOwnerInput } from './../inputs/BusinessOwnerInputs/CreateBusinessOwnerInput';
+import { JwtMiddleware } from './../middlewares/JwtMiddleware';
 
 @Resolver()
 export class BusinessOwnerResolver {
@@ -19,6 +20,7 @@ export class BusinessOwnerResolver {
   }
 
   @Mutation(() => BusinessOwner)
+  @UseMiddleware(JwtMiddleware)
   public async createBusinessOwner(@Arg('data') data: CreateBusinessOwnerInput) {
     const restaurant = BusinessOwner.create(data);
     restaurant.isDeleted = false;
@@ -34,6 +36,7 @@ export class BusinessOwnerResolver {
   }
 
   @Mutation(() => BusinessOwner)
+  @UseMiddleware(JwtMiddleware)
   public async updateBusinessOwner(
     @Arg('id') id: string,
     @Arg('data') data: UpdateBusinessOwnerInput

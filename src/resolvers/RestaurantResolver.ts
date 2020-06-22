@@ -1,7 +1,8 @@
-import { Arg, Mutation, Query, Resolver } from 'type-graphql';
+import { Arg, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql';
 import { UpdateRestaurantInput } from '../inputs/RestaurantInputs/UpdateRestaurantInput';
 import { Restaurant } from './../entity/Restaurant';
 import { CreateRestaurantInput } from './../inputs/RestaurantInputs/CreateRestaurantInput';
+import { JwtMiddleware } from './../middlewares/JwtMiddleware';
 
 @Resolver()
 export class RestaurantResolver {
@@ -19,6 +20,7 @@ export class RestaurantResolver {
   }
 
   @Mutation(() => Restaurant)
+  @UseMiddleware(JwtMiddleware)
   public async createRestaurant(@Arg('data') data: CreateRestaurantInput) {
     const restaurant = Restaurant.create(data);
     restaurant.isDeleted = false;
@@ -35,6 +37,7 @@ export class RestaurantResolver {
   }
 
   @Mutation(() => Restaurant)
+  @UseMiddleware(JwtMiddleware)
   public async updateRestaurant(@Arg('id') id: string, @Arg('data') data: UpdateRestaurantInput) {
     const restaurant = await Restaurant.findOne({ where: { id } });
 
@@ -50,6 +53,7 @@ export class RestaurantResolver {
   }
 
   @Mutation(() => Restaurant)
+  @UseMiddleware(JwtMiddleware)
   public async activateRestaurant(@Arg('id') id: string) {
     const restaurant = await Restaurant.findOne({ where: { id } });
 
@@ -62,6 +66,7 @@ export class RestaurantResolver {
   }
 
   @Mutation(() => Restaurant)
+  @UseMiddleware(JwtMiddleware)
   public async approveRestaurant(@Arg('id') id: string) {
     const restaurant = await Restaurant.findOne({ where: { id } });
 

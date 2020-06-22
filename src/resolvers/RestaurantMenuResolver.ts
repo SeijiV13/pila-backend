@@ -1,7 +1,8 @@
-import { Arg, Mutation, Query, Resolver } from 'type-graphql';
+import { Arg, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql';
 import { CreateRestaurantMenuInput } from '../inputs/RestaurantMenuInputs/CreateRestaurantMenuInput';
 import { UpdateRestaurantMenuInput } from '../inputs/RestaurantMenuInputs/UpdateRestaurantMenuInput';
 import { RestaurantMenu } from './../entity/RestaurantMenu';
+import { JwtMiddleware } from './../middlewares/JwtMiddleware';
 
 @Resolver()
 export class RestaurantMenuResolver {
@@ -25,6 +26,7 @@ export class RestaurantMenuResolver {
   }
 
   @Mutation(() => RestaurantMenu)
+  @UseMiddleware(JwtMiddleware)
   public async createRestaurantMenu(@Arg('data') data: CreateRestaurantMenuInput) {
     const restaurant = RestaurantMenu.create(data);
     restaurant.isDeleted = false;
@@ -39,6 +41,7 @@ export class RestaurantMenuResolver {
   }
 
   @Mutation(() => RestaurantMenu)
+  @UseMiddleware(JwtMiddleware)
   public async updateRestaurantMenu(
     @Arg('id') id: string,
     @Arg('data') data: UpdateRestaurantMenuInput

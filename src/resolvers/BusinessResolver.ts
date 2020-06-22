@@ -1,7 +1,8 @@
-import { Arg, Mutation, Query, Resolver } from 'type-graphql';
+import { Arg, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql';
 import { UpdateBusinessInput } from '../inputs/BusinessInputs/UpdateBusinessInput';
 import { Business } from './../entity/Business';
 import { CreateBusinessInput } from './../inputs/BusinessInputs/CreateBusinessInput';
+import { JwtMiddleware } from './../middlewares/JwtMiddleware';
 
 @Resolver()
 export class BusinessResolver {
@@ -19,6 +20,7 @@ export class BusinessResolver {
   }
 
   @Mutation(() => Business)
+  @UseMiddleware(JwtMiddleware)
   public async createBusiness(@Arg('data') data: CreateBusinessInput) {
     const restaurant = Business.create(data);
     restaurant.isDeleted = false;
@@ -34,6 +36,7 @@ export class BusinessResolver {
   }
 
   @Mutation(() => Business)
+  @UseMiddleware(JwtMiddleware)
   public async updateBusiness(@Arg('id') id: string, @Arg('data') data: UpdateBusinessInput) {
     const restaurant = await Business.findOne({ where: { id } });
 
@@ -49,6 +52,7 @@ export class BusinessResolver {
   }
 
   @Mutation(() => Business)
+  @UseMiddleware(JwtMiddleware)
   public async activateBusiness(@Arg('id') id: string) {
     const restaurant = await Business.findOne({ where: { id } });
 
