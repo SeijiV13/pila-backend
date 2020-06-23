@@ -1,5 +1,6 @@
 import { Arg, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql';
 import { UpdateRestaurantInput } from '../inputs/RestaurantInputs/UpdateRestaurantInput';
+import { distance } from '../services/computedistance-service';
 import { Restaurant } from './../entity/Restaurant';
 import { CreateRestaurantInput } from './../inputs/RestaurantInputs/CreateRestaurantInput';
 import { JwtMiddleware } from './../middlewares/JwtMiddleware';
@@ -15,6 +16,17 @@ export class RestaurantResolver {
     }
 
     restaurant = await Restaurant.find();
+
+    return restaurant;
+  }
+
+  @Query(() => [Restaurant])
+  public async getNearRestaurants(@Arg('lat') lat: number, @Arg('long') long: number) {
+    let restaurant: Restaurant[];
+    restaurant = await Restaurant.find();
+
+    // filter near restaurants
+    restaurant.filter(data => distance(lat, long, data.latitudes, data.longitudes, 'K') <= 5);
 
     return restaurant;
   }

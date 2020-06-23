@@ -34,6 +34,6 @@ export class RestaurantMenuGroup extends BaseEntity {
   public createdDate: Date;
 
   @Column({ name: 'CreatedBy', type: 'nvarchar', length: 'MAX' })
-  @Field(() => Boolean)
+  @Field(() => String)
   public createdBy: string;
 }
