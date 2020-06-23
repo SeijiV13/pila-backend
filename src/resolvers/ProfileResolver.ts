@@ -41,7 +41,7 @@ export class ProfileResolver {
     test.on('data', chunk => {
       setTimeout(async () => {
         const profile = await Profile.findOne({ where: { userId: id } });
-        const result: any = uploadFileToBlob(
+        const result: any = await uploadFileToBlob(
           `profile/${profile.id}`,
           chunk,
           `profilepic.${ext[ext.length - 1]}`
