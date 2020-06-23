@@ -33,7 +33,7 @@ export class Business extends BaseEntity {
   public createdDate: Date;
 
   @Column({ name: 'CreatedBy', type: 'nvarchar', length: 'MAX' })
-  @Field(() => Boolean)
+  @Field(() => String)
   public createdBy: string;
 
   @Column({ name: 'UpdatedDate', type: 'datetime2', nullable: true })
