@@ -1,5 +1,7 @@
+import { GraphQLUpload } from 'apollo-upload-server';
 import { Arg, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql';
 import { UpdateBusinessInput } from '../inputs/BusinessInputs/UpdateBusinessInput';
+import { uploadFileToBlob } from '../services/storageblob-service';
 import { Business } from './../entity/Business';
 import { CreateBusinessInput } from './../inputs/BusinessInputs/CreateBusinessInput';
 import { JwtMiddleware } from './../middlewares/JwtMiddleware';
@@ -62,5 +64,28 @@ export class BusinessResolver {
     restaurant.isActive = true;
     await restaurant.save();
     return restaurant;
+  }
+
+  @Mutation(() => String)
+  @UseMiddleware(JwtMiddleware)
+  public async upload(@Arg('id') id: string, @Arg('file', type => GraphQLUpload) file) {
+    // process upload
+    const { filename, createReadStream } = file;
+    const ext = filename.split('.');
+    const test = createReadStream(filename);
+    test.on('data', chunk => {
+      setTimeout(async () => {
+        const business = await Business.findOne({ where: { id } });
+        const result: any = await uploadFileToBlob(
+          `business/${business.id}`,
+          chunk,
+          `logoimage.${ext[ext.length - 1]}`
+        );
+        business.logoImageUrl = result.url;
+        await business.save();
+      }, 3000);
+    });
+
+    return 'File Uploaded';
   }
 }
