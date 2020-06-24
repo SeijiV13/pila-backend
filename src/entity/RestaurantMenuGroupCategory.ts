@@ -1,32 +1,34 @@
 import { Field, ID, ObjectType } from 'type-graphql';
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Restaurant } from './Restaurant';
 
-@Entity({ name: 'Business', synchronize: true })
+@Entity({ name: 'RestaurantMenuGroupCategory', synchronize: true })
 @ObjectType()
-export class Business extends BaseEntity {
+export class RestaurantMenuGroupCategory extends BaseEntity {
   @PrimaryGeneratedColumn('uuid', { name: 'Id' })
   @Field(() => ID)
   public id: string;
 
-  @Column({ name: 'Name', type: 'nvarchar', length: 'MAX' })
+  @Column({ name: 'RestaurantId', type: 'uniqueidentifier' })
+  @ManyToMany(type => Restaurant)
+  @JoinColumn()
   @Field(() => String)
-  public name: string;
+  public restaurantId: string;
 
-  @Column({ name: 'Description', type: 'nvarchar', length: 'MAX' })
+  @Column({ name: 'GroupName', type: 'nvarchar', length: 200 })
   @Field(() => String)
-  public description: string;
-
-  @Column({ name: 'LogoImageUrl', type: 'nvarchar', length: 300, nullable: true })
-  @Field(() => String)
-  public logoImageUrl: string;
+  public groupName: string;
 
   @Column({ name: 'IsDeleted', type: 'bit' })
   @Field(() => Boolean)
   public isDeleted: boolean;
-
-  @Column({ name: 'IsActive', type: 'bit' })
-  @Field(() => Boolean)
-  public isActive: boolean;
 
   @Column({ name: 'CreatedDate', type: 'datetime2' })
   @Field(() => Date)

@@ -1,24 +1,23 @@
 import { Field, ID, ObjectType } from 'type-graphql';
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Business } from './Business';
 
-@Entity({ name: 'Business', synchronize: true })
+@Entity({ name: 'BusinessOwner', synchronize: true })
 @ObjectType()
-export class Business extends BaseEntity {
+export class BusinessOwner extends BaseEntity {
   @PrimaryGeneratedColumn('uuid', { name: 'Id' })
   @Field(() => ID)
   public id: string;
 
-  @Column({ name: 'Name', type: 'nvarchar', length: 'MAX' })
+  @Column({ name: 'BusinessId', type: 'uniqueidentifier' })
+  @ManyToOne(() => Business)
+  @JoinColumn()
   @Field(() => String)
-  public name: string;
+  public businessId: string;
 
-  @Column({ name: 'Description', type: 'nvarchar', length: 'MAX' })
+  @Column({ name: 'UserId', type: 'nvarchar', length: 'MAX' })
   @Field(() => String)
-  public description: string;
-
-  @Column({ name: 'LogoImageUrl', type: 'nvarchar', length: 300, nullable: true })
-  @Field(() => String)
-  public logoImageUrl: string;
+  public userId: string;
 
   @Column({ name: 'IsDeleted', type: 'bit' })
   @Field(() => Boolean)

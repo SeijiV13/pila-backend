@@ -2,19 +2,26 @@
    "compilerOptions": {
        "typeRoots": [
 			"./node_modules/@types",
-			"./node_modules/koa-body"
+         "./node_modules/koa-body"
 	  ],
       "lib": [
-         "es5",
-         "es6"
-         
+         "ES5",
+         "ES6",
+         "ESNext",
+         "ES7"
       ],
-      "target": "es5",
+      "target": "ES5",
       "module": "commonjs",
       "moduleResolution": "node",
       "outDir": "./dist",
       "emitDecoratorMetadata": true,
       "experimentalDecorators": true,
-      "sourceMap": true
-   }
+      "sourceMap": true,
+      "esModuleInterop": true,
+      "skipLibCheck": true
+   } , 
+   "exclude": [
+      "node_modules"
+   ]
+
 }
