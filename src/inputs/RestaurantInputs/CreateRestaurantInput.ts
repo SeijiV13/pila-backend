@@ -12,6 +12,18 @@ export class CreateRestaurantInput {
   public type: string;
 
   @Field()
+  public cuisines: string;
+
+  @Field()
+  public ambience: string;
+
+  @Field()
+  public seatingType: string;
+
+  @Field()
+  public hasSmokingArea: boolean;
+
+  @Field()
   public address: string;
 
   @Field()

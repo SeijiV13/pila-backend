@@ -1,10 +1,11 @@
 import { Arg, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql';
 import { UpdateRestaurantInput } from '../inputs/RestaurantInputs/UpdateRestaurantInput';
 import { distance } from '../services/computedistance-service';
+import { getUserId } from '../services/getonlonlineuser-service';
 import { Restaurant } from './../entity/Restaurant';
 import { CreateRestaurantInput } from './../inputs/RestaurantInputs/CreateRestaurantInput';
+import { GetUserMiddleware } from './../middlewares/GetUserMiddleware';
 import { JwtMiddleware } from './../middlewares/JwtMiddleware';
-
 @Resolver()
 export class RestaurantResolver {
   @Query(() => [Restaurant])
@@ -32,13 +33,13 @@ export class RestaurantResolver {
   }
 
   @Mutation(() => Restaurant)
-  @UseMiddleware(JwtMiddleware)
+  @UseMiddleware(JwtMiddleware, GetUserMiddleware)
   public async createRestaurant(@Arg('data') data: CreateRestaurantInput) {
     const restaurant = Restaurant.create(data);
     restaurant.isDeleted = false;
     restaurant.isApproved = true;
     restaurant.isActive = true;
-    restaurant.createdBy = 'test';
+    restaurant.createdBy = getUserId();
     restaurant.createdDate = new Date();
     restaurant.updatedDate = null;
     restaurant.updatedBy = null;
@@ -49,7 +50,7 @@ export class RestaurantResolver {
   }
 
   @Mutation(() => Restaurant)
-  @UseMiddleware(JwtMiddleware)
+  @UseMiddleware(JwtMiddleware, GetUserMiddleware)
   public async updateRestaurant(@Arg('id') id: string, @Arg('data') data: UpdateRestaurantInput) {
     const restaurant = await Restaurant.findOne({ where: { id } });
 
@@ -58,33 +59,37 @@ export class RestaurantResolver {
     }
     Object.assign(restaurant, data);
     restaurant.updatedDate = new Date();
-    restaurant.updatedBy = 'test';
+    restaurant.updatedBy = getUserId();
 
     await restaurant.save();
     return restaurant;
   }
 
   @Mutation(() => Restaurant)
-  @UseMiddleware(JwtMiddleware)
+  @UseMiddleware(JwtMiddleware, GetUserMiddleware)
   public async activateRestaurant(@Arg('id') id: string) {
     const restaurant = await Restaurant.findOne({ where: { id } });
 
     if (!restaurant) {
       throw new Error('Restaurant not found!');
     }
+    restaurant.updatedDate = new Date();
+    restaurant.updatedBy = getUserId();
     restaurant.isActive = true;
     await restaurant.save();
     return restaurant;
   }
 
   @Mutation(() => Restaurant)
-  @UseMiddleware(JwtMiddleware)
+  @UseMiddleware(JwtMiddleware, GetUserMiddleware)
   public async approveRestaurant(@Arg('id') id: string) {
     const restaurant = await Restaurant.findOne({ where: { id } });
 
     if (!restaurant) {
       throw new Error('Restaurant not found!');
     }
+    restaurant.updatedDate = new Date();
+    restaurant.updatedBy = getUserId();
     restaurant.isApproved = true;
     await restaurant.save();
     return restaurant;

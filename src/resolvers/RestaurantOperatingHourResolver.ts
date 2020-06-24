@@ -1,7 +1,9 @@
 import { Arg, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql';
 import { UpdateRestaurantOperatingHourInput } from '../inputs/RestaurantOperatingHourInputs/UpdateRestaurantOperatingHourInput';
+import { getUserId } from '../services/getonlonlineuser-service';
 import { RestaurantOperatingHour } from './../entity/RestaurantOperatingHour';
 import { CreateRestaurantOperatingHourInput } from './../inputs/RestaurantOperatingHourInputs/CreateRestaurantOperatingHourInput';
+import { GetUserMiddleware } from './../middlewares/GetUserMiddleware';
 import { JwtMiddleware } from './../middlewares/JwtMiddleware';
 
 @Resolver()
@@ -27,12 +29,12 @@ export class RestaurantOperatingHourResolver {
   }
 
   @Mutation(() => RestaurantOperatingHour)
-  @UseMiddleware(JwtMiddleware)
+  @UseMiddleware(JwtMiddleware, GetUserMiddleware)
   public async createRestaurantOperatingHour(
     @Arg('data') data: CreateRestaurantOperatingHourInput
   ) {
     const restaurant = RestaurantOperatingHour.create(data);
-    restaurant.createdBy = 'test';
+    restaurant.createdBy = getUserId();
     restaurant.createdDate = new Date();
     restaurant.updatedDate = null;
     restaurant.updatedBy = null;
@@ -43,7 +45,7 @@ export class RestaurantOperatingHourResolver {
   }
 
   @Mutation(() => RestaurantOperatingHour)
-  @UseMiddleware(JwtMiddleware)
+  @UseMiddleware(JwtMiddleware, GetUserMiddleware)
   public async updateRestaurantOperatingHour(
     @Arg('id') id: string,
     @Arg('data') data: UpdateRestaurantOperatingHourInput
@@ -55,7 +57,7 @@ export class RestaurantOperatingHourResolver {
     }
     Object.assign(restaurant, data);
     restaurant.updatedDate = new Date();
-    restaurant.updatedBy = 'test';
+    restaurant.updatedBy = getUserId();
 
     await restaurant.save();
     return restaurant;

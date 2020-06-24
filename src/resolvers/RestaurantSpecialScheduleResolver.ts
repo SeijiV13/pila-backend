@@ -1,7 +1,9 @@
 import { Arg, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql';
 import { UpdateRestaurantSpecialScheduleInput } from '../inputs/RestaurantSpecialScheduleInputs/UpdateRestaurantSpecialScheduleInput';
+import { getUserId } from '../services/getonlonlineuser-service';
 import { RestaurantSpecialSchedule } from './../entity/RestaurantSpecialSchedule';
 import { CreateRestaurantSpecialScheduleInput } from './../inputs/RestaurantSpecialScheduleInputs/CreateRestaurantSpecialScheduleInput';
+import { GetUserMiddleware } from './../middlewares/GetUserMiddleware';
 import { JwtMiddleware } from './../middlewares/JwtMiddleware';
 
 @Resolver()
@@ -29,12 +31,12 @@ export class RestaurantSpecialScheduleResolver {
   }
 
   @Mutation(() => RestaurantSpecialSchedule)
-  @UseMiddleware(JwtMiddleware)
+  @UseMiddleware(JwtMiddleware, GetUserMiddleware)
   public async createRestaurantSpecialSchedule(
     @Arg('data') data: CreateRestaurantSpecialScheduleInput
   ) {
     const restaurant = RestaurantSpecialSchedule.create(data);
-    restaurant.createdBy = 'test';
+    restaurant.createdBy = getUserId();
     restaurant.createdDate = new Date();
     restaurant.updatedDate = null;
     restaurant.updatedBy = null;
@@ -45,7 +47,7 @@ export class RestaurantSpecialScheduleResolver {
   }
 
   @Mutation(() => RestaurantSpecialSchedule)
-  @UseMiddleware(JwtMiddleware)
+  @UseMiddleware(JwtMiddleware, GetUserMiddleware)
   public async updateRestaurantSpecialSchedule(
     @Arg('id') id: string,
     @Arg('data') data: UpdateRestaurantSpecialScheduleInput
@@ -57,7 +59,7 @@ export class RestaurantSpecialScheduleResolver {
     }
     Object.assign(restaurant, data);
     restaurant.updatedDate = new Date();
-    restaurant.updatedBy = 'test';
+    restaurant.updatedBy = getUserId();
 
     await restaurant.save();
     return restaurant;

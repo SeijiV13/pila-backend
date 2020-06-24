@@ -8,7 +8,7 @@ export class JwtMiddleware implements MiddlewareInterface<any> {
   public async use({ context }: ResolverData<any>, next: NextFn) {
     // Get the jwt token from the head
 
-    let token = context.headers.authorization as string;
+    let token = context.req.headers.authorization as string;
     let jwtPayload;
     if (token.startsWith('Bearer ')) {
       // Remove Bearer from string

@@ -32,10 +32,10 @@ async function main() {
     ],
   });
   const server = new ApolloServer({
-    context: ({ req }) => {
+    context: ({ req, res }) => {
       // get the user token from the headers
       // try to retrieve a user with the token
-      return req;
+      return { req, res };
     },
     schema,
   });

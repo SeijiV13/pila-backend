@@ -23,6 +23,22 @@ export class Restaurant extends BaseEntity {
   @Field(() => String)
   public type: string;
 
+  @Column({ name: 'Cuisines', type: 'nvarchar', length: 'MAX' })
+  @Field(() => String)
+  public cusines: string;
+
+  @Column({ name: 'Ambience', type: 'nvarchar', length: 'MAX' })
+  @Field(() => String)
+  public ambience: string;
+
+  @Column({ name: 'SeatingType', type: 'nvarchar', length: 'MAX' })
+  @Field(() => String)
+  public seatingType: string;
+
+  @Column({ name: 'HasSmokingArea', type: 'bit' })
+  @Field(() => Boolean)
+  public hasSmokingArea: boolean;
+
   @Column({ name: 'Address', type: 'nvarchar', length: 200 })
   @Field(() => String)
   public address: string;

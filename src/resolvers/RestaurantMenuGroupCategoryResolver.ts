@@ -1,7 +1,9 @@
 import { Arg, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql';
 import { CreateRestaurantMenuGroupCategoryInput } from '../inputs/RestaurantMenuGroupCategoryInputs/CreateRestaurantMenuGroupCategoryInput';
 import { UpdateRestaurantMenuGroupCategoryInput } from '../inputs/RestaurantMenuGroupCategoryInputs/UpdateRestaurantMenuGroupCategoryInput';
+import { getUserId } from '../services/getonlonlineuser-service';
 import { RestaurantMenuGroupCategory } from './../entity/RestaurantMenuGroupCategory';
+import { GetUserMiddleware } from './../middlewares/GetUserMiddleware';
 import { JwtMiddleware } from './../middlewares/JwtMiddleware';
 
 @Resolver()
@@ -28,12 +30,12 @@ export class RestaurantMenuGroupCategoryResolver {
   }
 
   @Mutation(() => RestaurantMenuGroupCategory)
-  @UseMiddleware(JwtMiddleware)
+  @UseMiddleware(JwtMiddleware, GetUserMiddleware)
   public async createRestaurantMenuGroupCategory(
     @Arg('data') data: CreateRestaurantMenuGroupCategoryInput
   ) {
     const restaurant = RestaurantMenuGroupCategory.create(data);
-    restaurant.createdBy = 'test';
+    restaurant.createdBy = getUserId();
     restaurant.createdDate = new Date();
 
     await restaurant.save();
@@ -42,13 +44,14 @@ export class RestaurantMenuGroupCategoryResolver {
   }
 
   @Mutation(() => RestaurantMenuGroupCategory)
-  @UseMiddleware(JwtMiddleware)
+  @UseMiddleware(JwtMiddleware, GetUserMiddleware)
   public async updateRestaurantMenuGroupCategory(
     @Arg('id') id: string,
     @Arg('data') data: UpdateRestaurantMenuGroupCategoryInput
   ) {
     const restaurant = await RestaurantMenuGroupCategory.findOne({ where: { id } });
-
+    restaurant.updatedBy = getUserId();
+    restaurant.updatedDate = new Date();
     if (!restaurant) {
       throw new Error('Restaurant menu group category not found!');
     }
