@@ -1,7 +1,9 @@
 import { Arg, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql';
 import { UpdateBusinessOwnerInput } from '../inputs/BusinessOwnerInputs/UpdateBusinessOwnerInput';
+import { getUserId } from '../services/getonlonlineuser-service';
 import { BusinessOwner } from './../entity/BusinessOwner';
 import { CreateBusinessOwnerInput } from './../inputs/BusinessOwnerInputs/CreateBusinessOwnerInput';
+import { GetUserMiddleware } from './../middlewares/GetUserMiddleware';
 import { JwtMiddleware } from './../middlewares/JwtMiddleware';
 
 @Resolver()
@@ -20,12 +22,12 @@ export class BusinessOwnerResolver {
   }
 
   @Mutation(() => BusinessOwner)
-  @UseMiddleware(JwtMiddleware)
+  @UseMiddleware(JwtMiddleware, GetUserMiddleware)
   public async createBusinessOwner(@Arg('data') data: CreateBusinessOwnerInput) {
     const restaurant = BusinessOwner.create(data);
     restaurant.isDeleted = false;
     restaurant.isActive = true;
-    restaurant.createdBy = 'test';
+    restaurant.createdBy = getUserId();
     restaurant.createdDate = new Date();
     restaurant.updatedDate = null;
     restaurant.updatedBy = null;
@@ -36,7 +38,7 @@ export class BusinessOwnerResolver {
   }
 
   @Mutation(() => BusinessOwner)
-  @UseMiddleware(JwtMiddleware)
+  @UseMiddleware(JwtMiddleware, GetUserMiddleware)
   public async updateBusinessOwner(
     @Arg('id') id: string,
     @Arg('data') data: UpdateBusinessOwnerInput
@@ -48,7 +50,7 @@ export class BusinessOwnerResolver {
     }
     Object.assign(restaurant, data);
     restaurant.updatedDate = new Date();
-    restaurant.updatedBy = 'test';
+    restaurant.updatedBy = getUserId();
 
     await restaurant.save();
     return restaurant;

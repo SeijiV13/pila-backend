@@ -1,7 +1,9 @@
 import { Arg, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql';
 import { CreateRestaurantMenuGroupInput } from '../inputs/RestaurantMenuGroupInputs/CreateRestaurantMenuGroupInput';
 import { UpdateRestaurantMenuGroupInput } from '../inputs/RestaurantMenuGroupInputs/UpdateRestaurantMenuGroupInput';
+import { getUserId } from '../services/getonlonlineuser-service';
 import { RestaurantMenuGroup } from './../entity/RestaurantMenuGroup';
+import { GetUserMiddleware } from './../middlewares/GetUserMiddleware';
 import { JwtMiddleware } from './../middlewares/JwtMiddleware';
 
 @Resolver()
@@ -32,10 +34,10 @@ export class RestaurantMenuGroupResolver {
   }
 
   @Mutation(() => RestaurantMenuGroup)
-  @UseMiddleware(JwtMiddleware)
+  @UseMiddleware(JwtMiddleware, GetUserMiddleware)
   public async createRestaurantMenuGroup(@Arg('data') data: CreateRestaurantMenuGroupInput) {
     const restaurant = RestaurantMenuGroup.create(data);
-    restaurant.createdBy = 'test';
+    restaurant.createdBy = getUserId();
     restaurant.createdDate = new Date();
 
     await restaurant.save();
