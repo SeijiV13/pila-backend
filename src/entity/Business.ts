@@ -1,5 +1,6 @@
 import { Field, ID, ObjectType } from 'type-graphql';
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Restaurant } from './Restaurant';
 
 @Entity({ name: 'Business', synchronize: true })
 @ObjectType()
@@ -43,4 +44,11 @@ export class Business extends BaseEntity {
   @Column({ name: 'UpdatedBy', type: 'nvarchar', length: 'MAX', nullable: true })
   @Field(() => String)
   public updatedBy: string;
+
+  @OneToMany(
+    type => Restaurant,
+    restaurant => restaurant.business
+  )
+  @Field(() => [Restaurant])
+  public restaurants: Restaurant[];
 }

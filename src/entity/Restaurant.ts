@@ -10,10 +10,12 @@ export class Restaurant extends BaseEntity {
   public id: string;
 
   @Column({ name: 'BusinessId', type: 'uniqueidentifier' })
-  @ManyToOne(type => Business)
-  @JoinColumn()
   @Field(() => String)
   public businessId: string;
+
+  @Column({ name: 'Name', type: 'nvarchar', length: '150' })
+  @Field(() => String)
+  public name: string;
 
   @Column({ name: 'Description', type: 'nvarchar', length: 'MAX' })
   @Field(() => String)
@@ -25,7 +27,7 @@ export class Restaurant extends BaseEntity {
 
   @Column({ name: 'Cuisines', type: 'nvarchar', length: 'MAX' })
   @Field(() => String)
-  public cusines: string;
+  public cuisines: string;
 
   @Column({ name: 'Ambience', type: 'nvarchar', length: 'MAX' })
   @Field(() => String)
@@ -34,6 +36,10 @@ export class Restaurant extends BaseEntity {
   @Column({ name: 'SeatingType', type: 'nvarchar', length: 'MAX' })
   @Field(() => String)
   public seatingType: string;
+
+  @Column({ name: 'ImageUrl', type: 'nvarchar', length: 300, nullable: true })
+  @Field(() => String, { nullable: true })
+  public imageUrl: string;
 
   @Column({ name: 'HasSmokingArea', type: 'bit' })
   @Field(() => Boolean)
@@ -94,4 +100,9 @@ export class Restaurant extends BaseEntity {
   @Column({ name: 'UpdatedBy', type: 'nvarchar', length: 'MAX', nullable: true })
   @Field(() => String)
   public updatedBy: string;
+
+  @ManyToOne(type => Business)
+  @JoinColumn()
+  @Field(() => Business)
+  public business: Business;
 }

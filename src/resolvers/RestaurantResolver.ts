@@ -24,12 +24,12 @@ export class RestaurantResolver {
   @Query(() => [Restaurant])
   public async getNearRestaurants(@Arg('lat') lat: number, @Arg('long') long: number) {
     let restaurant: Restaurant[];
-    restaurant = await Restaurant.find();
+    restaurant = await Restaurant.find({ relations: ['business'] });
 
     // filter near restaurants
-    restaurant.filter(data => distance(lat, long, data.latitudes, data.longitudes, 'K') <= 5);
-
-    return restaurant;
+    return restaurant.filter(
+      data => distance(lat, long, data.latitudes, data.longitudes, 'K') <= 5
+    );
   }
 
   @Mutation(() => Restaurant)
