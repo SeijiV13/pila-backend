@@ -2,7 +2,7 @@ import { Field, ID, ObjectType } from 'type-graphql';
 import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Business } from './Business';
 
-@Entity({ name: 'BusinessOwner', synchronize: true })
+@Entity({ name: 'BusinessOwner', synchronize: false })
 @ObjectType()
 export class BusinessOwner extends BaseEntity {
   @PrimaryGeneratedColumn('uuid', { name: 'Id' })

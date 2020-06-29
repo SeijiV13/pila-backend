@@ -3,7 +3,7 @@ import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColu
 import { Restaurant } from './Restaurant';
 import { User } from './User';
 
-@Entity({ name: 'RestaurantUserAccess', synchronize: true })
+@Entity({ name: 'RestaurantUserAccess', synchronize: false })
 @ObjectType()
 export class RestaurantUserAccess extends BaseEntity {
   @PrimaryGeneratedColumn('uuid', { name: 'Id' })

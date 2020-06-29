@@ -2,7 +2,7 @@ import { IsNotEmpty, MaxLength } from 'class-validator';
 import { Field, ID, ObjectType } from 'type-graphql';
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity({ name: 'Profile', synchronize: true })
+@Entity({ name: 'Profile', synchronize: false })
 @ObjectType()
 export class Profile extends BaseEntity {
   @PrimaryGeneratedColumn('uuid', { name: 'Id' })

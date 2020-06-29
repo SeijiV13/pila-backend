@@ -10,7 +10,7 @@ import {
 import { RestaurantMenu } from './RestaurantMenu';
 import { RestaurantMenuGroupCategory } from './RestaurantMenuGroupCategory';
 
-@Entity({ name: 'RestaurantMenuGroup', synchronize: true })
+@Entity({ name: 'RestaurantMenuGroup', synchronize: false })
 @ObjectType()
 export class RestaurantMenuGroup extends BaseEntity {
   @PrimaryGeneratedColumn('uuid', { name: 'Id' })

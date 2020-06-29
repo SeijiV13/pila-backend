@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 import { Restaurant } from './Restaurant';
 
-@Entity({ name: 'RestaurantOperatingHour', synchronize: true })
+@Entity({ name: 'RestaurantOperatingHour', synchronize: false })
 @ObjectType()
 export class RestaurantOperatingHour extends BaseEntity {
   @PrimaryGeneratedColumn('uuid', { name: 'Id' })
