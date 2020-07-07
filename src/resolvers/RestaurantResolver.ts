@@ -44,6 +44,35 @@ export class RestaurantResolver {
     return restaurant;
   }
 
+  @Query(() => [Restaurant])
+  public async filterRestaurants(
+    @Arg('ambiance') ambiance: string,
+    @Arg('seatingType') seatingType: string,
+    @Arg('smokingArea') smokingArea: string,
+    @Arg('description') description: string
+  ) {
+    let restaurant: Restaurant[];
+    restaurant = await Restaurant.find({
+      where: [
+        {
+          ambiance: Like(`%${ambiance}%`),
+          description: Like(`%${description}%`),
+          seatingType: Like(`%${seatingType}%`),
+          smokingArea: Like(`%${smokingArea}%`),
+        },
+        {
+          ambiance: Like(`%${ambiance}%`),
+          name: Like(`%${description}%`),
+          seatingType: Like(`%${seatingType}%`),
+          smokingArea: Like(`%${smokingArea}%`),
+        },
+      ],
+    });
+
+    // filter near restaurants
+    return restaurant;
+  }
+
   @Mutation(() => Restaurant)
   @UseMiddleware(JwtMiddleware, GetUserMiddleware)
   public async createRestaurant(@Arg('data') data: CreateRestaurantInput) {

@@ -8,12 +8,17 @@ export class GetUserMiddleware implements MiddlewareInterface<any> {
 
     // Get the user ID from previous midleware
     let token = context.req.headers.authorization as string;
-    if (token.startsWith('Bearer ')) {
-      // Remove Bearer from string
-      token = token.slice(7, token.length).trimLeft();
+    if (token) {
+      if (token.startsWith('Bearer ')) {
+        // Remove Bearer from string
+        token = token.slice(7, token.length).trimLeft();
+      }
+      const decoded: any = jwt.decode(token);
+      setUserId(decoded.userId);
+      await next();
+    } else {
+      setUserId('');
+      await next();
     }
-    const decoded: any = jwt.decode(token);
-    setUserId(decoded.userId);
-    await next();
   }
 }

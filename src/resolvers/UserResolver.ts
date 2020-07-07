@@ -39,6 +39,7 @@ export class UserResolver {
 
     profile.userId = user.id;
     profile.createdBy = '';
+    profile.mobileNumber = '';
     profile.createdDate = new Date();
     await profile.save();
     return user;

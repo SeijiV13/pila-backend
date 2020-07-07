@@ -45,10 +45,6 @@ export class Business extends BaseEntity {
   @Field(() => String)
   public updatedBy: string;
 
-  @OneToMany(
-    type => Restaurant,
-    restaurant => restaurant.business
-  )
   @Field(() => [Restaurant])
   public restaurants: Restaurant[];
 }

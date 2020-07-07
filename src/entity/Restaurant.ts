@@ -100,9 +100,4 @@ export class Restaurant extends BaseEntity {
   @Column({ name: 'UpdatedBy', type: 'nvarchar', length: 'MAX', nullable: true })
   @Field(() => String)
   public updatedBy: string;
-
-  @ManyToOne(type => Business)
-  @JoinColumn()
-  @Field(() => Business)
-  public business: Business;
 }
