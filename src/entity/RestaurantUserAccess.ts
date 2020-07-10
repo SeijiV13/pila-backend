@@ -11,14 +11,14 @@ export class RestaurantUserAccess extends BaseEntity {
   public id: string;
 
   @Column({ name: 'RestaurantId', type: 'uniqueidentifier' })
-  @ManyToOne(type => Restaurant)
-  @JoinColumn()
+  // @ManyToOne(type => Restaurant)
+  // @JoinColumn()
   @Field(() => String)
   public restaurantId: string;
 
   @Column({ name: 'UserId', type: 'uniqueidentifier' })
-  @ManyToOne(type => User)
-  @JoinColumn()
+  // @ManyToOne(type => User)
+  // @JoinColumn()
   @Field(() => String)
   public userId: string;
 

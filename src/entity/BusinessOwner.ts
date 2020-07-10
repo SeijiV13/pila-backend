@@ -10,8 +10,8 @@ export class BusinessOwner extends BaseEntity {
   public id: string;
 
   @Column({ name: 'BusinessId', type: 'uniqueidentifier' })
-  @ManyToOne(() => Business)
-  @JoinColumn()
+  // @ManyToOne(() => Business)
+  // @JoinColumn()
   @Field(() => String)
   public businessId: string;
 

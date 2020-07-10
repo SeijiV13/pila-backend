@@ -10,9 +10,9 @@ export class RestaurantMenu extends BaseEntity {
   public id: string;
 
   @Column({ name: 'RestaurantId', type: 'uniqueidentifier' })
-  @ManyToOne(type => Restaurant)
-  @JoinColumn()
-  @Field(() => String)
+  // @ManyToOne(type => Restaurant)
+  // @JoinColumn()
+  // @Field(() => String)
   public restaurantId: string;
 
   @Column({ name: 'MenuName', type: 'nvarchar', length: 'MAX' })

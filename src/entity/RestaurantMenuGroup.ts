@@ -18,14 +18,14 @@ export class RestaurantMenuGroup extends BaseEntity {
   public id: string;
 
   @Column({ name: 'MenuId', type: 'uniqueidentifier' })
-  @ManyToMany(type => RestaurantMenu)
-  @JoinColumn()
+  // @ManyToMany(type => RestaurantMenu)
+  // @JoinColumn()
   @Field(() => String)
   public menuId: string;
 
   @Column({ name: 'groupId', type: 'uniqueidentifier' })
-  @ManyToMany(type => RestaurantMenuGroupCategory)
-  @JoinColumn()
+  // @ManyToMany(type => RestaurantMenuGroupCategory)
+  // @JoinColumn()
   @Field(() => String)
   public groupId: string;
 
