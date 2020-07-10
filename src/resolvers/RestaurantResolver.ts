@@ -45,26 +45,38 @@ export class RestaurantResolver {
   }
 
   @Query(() => [Restaurant])
-  public async filterRestaurants(
-    @Arg('ambiance') ambiance: string,
+  public async getRestaurantsByKeywordsFilter(@Arg('keywords') keywords: string) {
+    let restaurant: Restaurant[];
+    restaurant = await Restaurant.find({
+      where: [
+        {
+          cuisines: Like(`%${keywords}%`),
+        },
+        {
+          description: Like(`%${keywords}%`),
+        },
+      ],
+    });
+
+    // filter near restaurants
+    return restaurant;
+  }
+
+  @Query(() => [Restaurant])
+  public async filterRestaurantsByOptionalFilters(
+    @Arg('ambience') ambience: string,
     @Arg('seatingType') seatingType: string,
-    @Arg('smokingArea') smokingArea: string,
-    @Arg('description') description: string
+    @Arg('hasSmokingArea') hasSmokingArea: boolean,
+    @Arg('name') name: string
   ) {
     let restaurant: Restaurant[];
     restaurant = await Restaurant.find({
       where: [
         {
-          ambiance: Like(`%${ambiance}%`),
-          description: Like(`%${description}%`),
+          ambience: Like(`%${ambience}%`),
+          hasSmokingArea,
+          name: Like(`%${name}%`),
           seatingType: Like(`%${seatingType}%`),
-          smokingArea: Like(`%${smokingArea}%`),
-        },
-        {
-          ambiance: Like(`%${ambiance}%`),
-          name: Like(`%${description}%`),
-          seatingType: Like(`%${seatingType}%`),
-          smokingArea: Like(`%${smokingArea}%`),
         },
       ],
     });

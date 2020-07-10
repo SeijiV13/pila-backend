@@ -10,7 +10,7 @@ import {
   Subscription,
   UseMiddleware,
 } from 'type-graphql';
-import { createQueryBuilder } from 'typeorm';
+import { createQueryBuilder, Like } from 'typeorm';
 import { UserQueue } from './../entity/UserQueue';
 import { CreateUserQueueInput } from './../inputs/UserQueueInputs/CreateUserQueueInput';
 
@@ -24,7 +24,7 @@ export class QueueResolver {
   }
 
   @Subscription({
-    topics: 'NOWSERVING',
+    topics: 'CHANGESTATUS ',
   })
   public nowServingQueue(@Root() payload): UserQueue {
     return payload;
@@ -34,30 +34,40 @@ export class QueueResolver {
   @UseMiddleware(GetUserMiddleware)
   public async addQueue(@Arg('data') data: CreateUserQueueInput, @PubSub() pubSub: PubSubEngine) {
     const userqueue = UserQueue.create(data);
-    const query = createQueryBuilder('UserQueue');
-    query.select('MAX(UserQueue.queueNumber)', 'max');
-    const test = await query.getRawOne();
-    if (test) {
-      userqueue.queueNumber = '1';
+    const result = await UserQueue.findAndCount({
+      where: { restaurantId: data.restaurantId, queueNumber: Like(`%${data.type}%`) },
+    });
+    console.log(result[1]);
+    if (result[1] === 0) {
+      userqueue.queueNumber = data.type === 'D' ? 'D1' : 'T1';
     } else {
-      userqueue.queueNumber = '1';
+      const queuenu = ++result[1];
+      userqueue.queueNumber = data.type === 'D' ? `D${queuenu}` : `T${queuenu}`;
     }
-    await UserQueue.save(userqueue);
     userqueue.status = 'Pending';
     userqueue.createdDate = new Date();
     userqueue.canceledDate = null;
     userqueue.queuedDate = new Date();
+    // temp hardcoded values
+    userqueue.transactionFee = 0;
+    userqueue.subTotal = 0;
+    userqueue.total = 0;
+    const user = await UserQueue.save(userqueue);
     await pubSub.publish('QUEUE', userqueue);
-    return true;
+    return user;
   }
 
   @Mutation(() => UserQueue)
   @UseMiddleware(GetUserMiddleware)
-  public async serveQueueStatus(@Arg('id') id: string, @PubSub() pubSub: PubSubEngine) {
+  public async serveQueueStatus(
+    @Arg('id') id: string,
+    @Arg('status') status: string,
+    @PubSub() pubSub: PubSubEngine
+  ) {
     const userqueue = await UserQueue.findOne({ where: { id } });
-    userqueue.status = 'SERVING';
+    userqueue.status = status;
 
-    await pubSub.publish('QUEUE', userqueue);
+    await pubSub.publish('CHANGESTATUS', userqueue);
     return true;
   }
 }
