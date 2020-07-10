@@ -2,7 +2,7 @@ import { Field, ID, ObjectType } from 'type-graphql';
 import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Restaurant } from './Restaurant';
 
-@Entity({ name: 'RestaurantMenu', synchronize: true })
+@Entity({ name: 'RestaurantMenu', synchronize: false })
 @ObjectType()
 export class RestaurantMenu extends BaseEntity {
   @PrimaryGeneratedColumn('uuid', { name: 'Id' })
@@ -10,9 +10,9 @@ export class RestaurantMenu extends BaseEntity {
   public id: string;
 
   @Column({ name: 'RestaurantId', type: 'uniqueidentifier' })
-  @ManyToOne(type => Restaurant)
-  @JoinColumn()
-  @Field(() => String)
+  // @ManyToOne(type => Restaurant)
+  // @JoinColumn()
+  // @Field(() => String)
   public restaurantId: string;
 
   @Column({ name: 'MenuName', type: 'nvarchar', length: 'MAX' })

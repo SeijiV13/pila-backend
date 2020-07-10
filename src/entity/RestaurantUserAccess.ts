@@ -3,7 +3,7 @@ import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColu
 import { Restaurant } from './Restaurant';
 import { User } from './User';
 
-@Entity({ name: 'RestaurantUserAccess', synchronize: true })
+@Entity({ name: 'RestaurantUserAccess', synchronize: false })
 @ObjectType()
 export class RestaurantUserAccess extends BaseEntity {
   @PrimaryGeneratedColumn('uuid', { name: 'Id' })
@@ -11,14 +11,14 @@ export class RestaurantUserAccess extends BaseEntity {
   public id: string;
 
   @Column({ name: 'RestaurantId', type: 'uniqueidentifier' })
-  @ManyToOne(type => Restaurant)
-  @JoinColumn()
+  // @ManyToOne(type => Restaurant)
+  // @JoinColumn()
   @Field(() => String)
   public restaurantId: string;
 
   @Column({ name: 'UserId', type: 'uniqueidentifier' })
-  @ManyToOne(type => User)
-  @JoinColumn()
+  // @ManyToOne(type => User)
+  // @JoinColumn()
   @Field(() => String)
   public userId: string;
 

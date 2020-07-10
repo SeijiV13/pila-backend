@@ -5,6 +5,7 @@ import { createConnection } from 'typeorm';
 import { AuthResolver } from './resolvers/AuthResolver';
 import { BusinessResolver } from './resolvers/BusinessResolver';
 import { ProfileResolver } from './resolvers/ProfileResolver';
+import { QueueResolver } from './resolvers/QueueResolver';
 import { RestaurantMenuGroupCategoryResolver } from './resolvers/RestaurantMenuGroupCategoryResolver';
 import { RestaurantMenuGroupResolver } from './resolvers/RestaurantMenuGroupResolver';
 import { RestaurantMenuResolver } from './resolvers/RestaurantMenuResolver';
@@ -19,6 +20,7 @@ async function main() {
   const connection = await createConnection();
   const schema = await buildSchema({
     resolvers: [
+      QueueResolver,
       UserResolver,
       ProfileResolver,
       AuthResolver,

@@ -25,6 +25,7 @@ export class UserResolver {
     user.status = 'Active';
     user.hashPassword();
     user.isLockedOut = false;
+    user.createdBy = '';
     user.createdDate = new Date();
 
     const userEmailExist = await User.findOne({ where: { email: user.email } });
@@ -37,6 +38,9 @@ export class UserResolver {
     await user.save();
 
     profile.userId = user.id;
+    profile.createdBy = '';
+    profile.mobileNumber = '';
+    profile.createdDate = new Date();
     await profile.save();
     return user;
   }
@@ -48,6 +52,7 @@ export class UserResolver {
     if (!user) {
       throw new Error('user not found!');
     }
+    user.updatedBy = '';
     user.updatedDate = new Date();
     Object.assign(user, data);
     await user.save();

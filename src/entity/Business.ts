@@ -2,7 +2,7 @@ import { Field, ID, ObjectType } from 'type-graphql';
 import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Restaurant } from './Restaurant';
 
-@Entity({ name: 'Business', synchronize: true })
+@Entity({ name: 'Business', synchronize: false })
 @ObjectType()
 export class Business extends BaseEntity {
   @PrimaryGeneratedColumn('uuid', { name: 'Id' })
@@ -45,10 +45,6 @@ export class Business extends BaseEntity {
   @Field(() => String)
   public updatedBy: string;
 
-  @OneToMany(
-    type => Restaurant,
-    restaurant => restaurant.business
-  )
   @Field(() => [Restaurant])
   public restaurants: Restaurant[];
 }

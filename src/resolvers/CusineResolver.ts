@@ -9,11 +9,18 @@ export class CuisineResolver {
       { description: 'American' },
       { description: 'Chinese' },
       { description: 'Filipino' },
+      { description: 'French' },
+      { description: 'Greek' },
       { description: 'Indian' },
+      { description: 'Italian' },
       { description: 'Japanese' },
+      { description: 'Korean' },
       { description: 'Mexican' },
+      { description: 'Middle Eastern' },
       { description: 'Singaporean' },
+      { description: 'Soul Food' },
       { description: 'Thai' },
+      { description: 'Vegetarian' },
     ];
 
     return restaurantTypes;

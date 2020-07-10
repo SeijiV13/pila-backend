@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 import { Restaurant } from './Restaurant';
 
-@Entity({ name: 'RestaurantMenuGroupCategory', synchronize: true })
+@Entity({ name: 'RestaurantMenuGroupCategory', synchronize: false })
 @ObjectType()
 export class RestaurantMenuGroupCategory extends BaseEntity {
   @PrimaryGeneratedColumn('uuid', { name: 'Id' })
@@ -17,8 +17,8 @@ export class RestaurantMenuGroupCategory extends BaseEntity {
   public id: string;
 
   @Column({ name: 'RestaurantId', type: 'uniqueidentifier' })
-  @ManyToMany(type => Restaurant)
-  @JoinColumn()
+  // @ManyToMany(type => Restaurant)
+  // @JoinColumn()
   @Field(() => String)
   public restaurantId: string;
 
