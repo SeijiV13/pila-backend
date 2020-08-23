@@ -1,6 +1,7 @@
 import { GraphQLUpload } from 'apollo-upload-server';
 import { Arg, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql';
 import { Like } from 'typeorm';
+import { RestaurantMenu } from '../entity/RestaurantMenu';
 import { UpdateRestaurantInput } from '../inputs/RestaurantInputs/UpdateRestaurantInput';
 import { distance } from '../services/computedistance-service';
 import { getUserId } from '../services/getonlonlineuser-service';
@@ -67,7 +68,9 @@ export class RestaurantResolver {
     @Arg('ambience') ambience: string,
     @Arg('seatingType') seatingType: string,
     @Arg('hasSmokingArea') hasSmokingArea: boolean,
-    @Arg('name') name: string
+    @Arg('name') name: string,
+    @Arg('minPrice') minPrice: number,
+    @Arg('maxPrice') maxPrice: number
   ) {
     let restaurant: Restaurant[];
     restaurant = await Restaurant.find({
@@ -80,6 +83,20 @@ export class RestaurantResolver {
         },
       ],
     });
+    if (minPrice && maxPrice) {
+      const withinPriceRange = await RestaurantMenu.createQueryBuilder()
+        .select('RestaurantId, SUM(price) as price')
+        .groupBy('RestaurantId')
+        .having(`SUM(price) <= ${maxPrice} AND SUM(price) >= ${minPrice} `)
+        .execute();
+
+      const filteredByPrice = restaurant.filter(el => {
+        return withinPriceRange.some(f => {
+          return f.RestaurantId === el.id;
+        });
+      });
+      return filteredByPrice;
+    }
 
     // filter near restaurants
     return restaurant;
