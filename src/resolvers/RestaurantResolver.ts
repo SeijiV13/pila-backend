@@ -27,7 +27,7 @@ export class RestaurantResolver {
   @Query(() => [Restaurant])
   public async getNearRestaurants(@Arg('lat') lat: number, @Arg('long') long: number) {
     let restaurant: Restaurant[];
-    restaurant = await Restaurant.find({ relations: ['business'] });
+    restaurant = await Restaurant.find();
 
     // filter near restaurants
     return restaurant.filter(
