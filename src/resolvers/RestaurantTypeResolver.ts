@@ -17,12 +17,12 @@ export class RestaurantTypeResolver {
       {
         description: 'Casual Dining',
         thumbnail:
-          'https://pilastorage.blob.core.windows.net/images/resto-type-mockup/casual-dining.jpg',
+          'https://pilastorage.blob.core.windows.net/images/resto-type-mockup/casual-dining.png',
       },
       {
         description: 'Contemporary Casual',
         thumbnail:
-          'https://pilastorage.blob.core.windows.net/images/resto-type-mockup/contemporary-casual.jpg',
+          'https://pilastorage.blob.core.windows.net/images/resto-type-mockup/contemporary-casual.png',
       },
       {
         description: 'Ethnic',
@@ -31,22 +31,22 @@ export class RestaurantTypeResolver {
       {
         description: 'Family Style',
         thumbnail:
-          'https://pilastorage.blob.core.windows.net/images/resto-type-mockup/family-style.jpg',
+          'https://pilastorage.blob.core.windows.net/images/resto-type-mockup/family-style.png',
       },
       {
         description: 'Fast Casual',
         thumbnail:
-          'https://pilastorage.blob.core.windows.net/images/resto-type-mockup/fast-casual.jpg',
+          'https://pilastorage.blob.core.windows.net/images/resto-type-mockup/fast-casual.png',
       },
       {
         description: 'Fast Food',
         thumbnail:
-          'https://pilastorage.blob.core.windows.net/images/resto-type-mockup/fast-food.jpg',
+          'https://pilastorage.blob.core.windows.net/images/resto-type-mockup/fast-food.png',
       },
       {
         description: 'Fine Dining',
         thumbnail:
-          'https://pilastorage.blob.core.windows.net/images/resto-type-mockup/fine-dining2.jpg',
+          'https://pilastorage.blob.core.windows.net/images/resto-type-mockup/fine-dining2.png',
       },
     ];
 
