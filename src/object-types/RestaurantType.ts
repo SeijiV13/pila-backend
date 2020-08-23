@@ -4,4 +4,7 @@ import { Field, ObjectType } from 'type-graphql';
 export class RestaurantType {
   @Field(() => String)
   public description: string;
+
+  @Field(() => String)
+  public thumbnail: string;
 }

@@ -4,6 +4,7 @@ import { buildSchema } from 'type-graphql';
 import { createConnection } from 'typeorm';
 import { AuthResolver } from './resolvers/AuthResolver';
 import { BusinessResolver } from './resolvers/BusinessResolver';
+import { CuisineResolver } from './resolvers/CusineResolver';
 import { ProfileResolver } from './resolvers/ProfileResolver';
 import { QueueResolver } from './resolvers/QueueResolver';
 import { RestaurantMenuGroupCategoryResolver } from './resolvers/RestaurantMenuGroupCategoryResolver';
@@ -26,6 +27,7 @@ async function main() {
       AuthResolver,
       RestaurantResolver,
       BusinessResolver,
+      CuisineResolver,
       RestaurantTypeResolver,
       RestaurantMenuResolver,
       RestaurantMenuGroupCategoryResolver,
