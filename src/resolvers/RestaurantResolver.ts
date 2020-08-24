@@ -2,7 +2,9 @@ import { GraphQLUpload } from 'apollo-upload-server';
 import { Arg, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql';
 import { Like } from 'typeorm';
 import { RestaurantMenu } from '../entity/RestaurantMenu';
+import { RestaurantOperatingHour } from '../entity/RestaurantOperatingHour';
 import { UpdateRestaurantInput } from '../inputs/RestaurantInputs/UpdateRestaurantInput';
+import { restaurantQueries } from '../queries/restaurant.queries';
 import { distance } from '../services/computedistance-service';
 import { getUserId } from '../services/getonlonlineuser-service';
 import { uploadFileToBlob } from '../services/storageblob-service';
@@ -10,26 +12,47 @@ import { Restaurant } from './../entity/Restaurant';
 import { CreateRestaurantInput } from './../inputs/RestaurantInputs/CreateRestaurantInput';
 import { GetUserMiddleware } from './../middlewares/GetUserMiddleware';
 import { JwtMiddleware } from './../middlewares/JwtMiddleware';
+import { RestaurantWithHours } from './../object-types/RestauranWithHours';
 @Resolver()
 export class RestaurantResolver {
-  @Query(() => [Restaurant])
+  @Query(() => [RestaurantWithHours])
   public async getRestaurants(@Arg('id') id?: string) {
     let restaurant;
     if (id) {
-      restaurant = await Restaurant.find({ where: { id } });
+      restaurant = await Restaurant.createQueryBuilder()
+        .select(restaurantQueries.selectRestaurant)
+        .innerJoin(
+          RestaurantOperatingHour,
+          'restaurantOperatingHour',
+          'Restaurant.id = restaurantOperatingHour.restaurantId'
+        )
+        .where('Restaurant.id =:id', { id })
+        .execute();
       return restaurant;
     }
 
-    restaurant = await Restaurant.find();
-
+    restaurant = await Restaurant.createQueryBuilder()
+      .select(restaurantQueries.selectRestaurant)
+      .innerJoin(
+        RestaurantOperatingHour,
+        'restaurantOperatingHour',
+        'Restaurant.id = restaurantOperatingHour.restaurantId'
+      )
+      .execute();
     return restaurant;
   }
 
-  @Query(() => [Restaurant])
+  @Query(() => [RestaurantWithHours])
   public async getNearRestaurants(@Arg('lat') lat: number, @Arg('long') long: number) {
-    let restaurant: Restaurant[];
-    restaurant = await Restaurant.find();
-
+    let restaurant: RestaurantWithHours[];
+    restaurant = await Restaurant.createQueryBuilder()
+      .select(restaurantQueries.selectRestaurant)
+      .innerJoin(
+        RestaurantOperatingHour,
+        'restaurantOperatingHour',
+        'Restaurant.id = restaurantOperatingHour.restaurantId'
+      )
+      .execute();
     // filter near restaurants
     return restaurant.filter(
       data => distance(lat, long, data.latitudes, data.longitudes, 'K') <= 5
