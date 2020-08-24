@@ -10,7 +10,7 @@ import {
 import { RestaurantMenu } from './RestaurantMenu';
 import { RestaurantMenuGroupCategory } from './RestaurantMenuGroupCategory';
 
-@Entity({ name: 'RestaurantMenuGroup', synchronize: true })
+@Entity({ name: 'RestaurantMenuGroup', synchronize: false })
 @ObjectType()
 export class RestaurantMenuGroup extends BaseEntity {
   @PrimaryGeneratedColumn('uuid', { name: 'Id' })
@@ -18,14 +18,14 @@ export class RestaurantMenuGroup extends BaseEntity {
   public id: string;
 
   @Column({ name: 'MenuId', type: 'uniqueidentifier' })
-  @ManyToMany(type => RestaurantMenu)
-  @JoinColumn()
+  // @ManyToMany(type => RestaurantMenu)
+  // @JoinColumn()
   @Field(() => String)
   public menuId: string;
 
   @Column({ name: 'groupId', type: 'uniqueidentifier' })
-  @ManyToMany(type => RestaurantMenuGroupCategory)
-  @JoinColumn()
+  // @ManyToMany(type => RestaurantMenuGroupCategory)
+  // @JoinColumn()
   @Field(() => String)
   public groupId: string;
 

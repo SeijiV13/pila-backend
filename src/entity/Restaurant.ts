@@ -2,7 +2,7 @@ import { Field, ID, ObjectType } from 'type-graphql';
 import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Business } from './Business';
 
-@Entity({ name: 'Restaurant', synchronize: true })
+@Entity({ name: 'Restaurant', synchronize: false })
 @ObjectType()
 export class Restaurant extends BaseEntity {
   @PrimaryGeneratedColumn('uuid', { name: 'Id' })
@@ -10,10 +10,12 @@ export class Restaurant extends BaseEntity {
   public id: string;
 
   @Column({ name: 'BusinessId', type: 'uniqueidentifier' })
-  @ManyToOne(type => Business)
-  @JoinColumn()
   @Field(() => String)
   public businessId: string;
+
+  @Column({ name: 'Name', type: 'nvarchar', length: '150' })
+  @Field(() => String)
+  public name: string;
 
   @Column({ name: 'Description', type: 'nvarchar', length: 'MAX' })
   @Field(() => String)
@@ -22,6 +24,26 @@ export class Restaurant extends BaseEntity {
   @Column({ name: 'Type', type: 'nvarchar', length: 100 })
   @Field(() => String)
   public type: string;
+
+  @Column({ name: 'Cuisines', type: 'nvarchar', length: 'MAX' })
+  @Field(() => String)
+  public cuisines: string;
+
+  @Column({ name: 'Ambience', type: 'nvarchar', length: 'MAX' })
+  @Field(() => String)
+  public ambience: string;
+
+  @Column({ name: 'SeatingType', type: 'nvarchar', length: 'MAX' })
+  @Field(() => String)
+  public seatingType: string;
+
+  @Column({ name: 'ImageUrl', type: 'nvarchar', length: 300, nullable: true })
+  @Field(() => String, { nullable: true })
+  public imageUrl: string;
+
+  @Column({ name: 'HasSmokingArea', type: 'bit' })
+  @Field(() => Boolean)
+  public hasSmokingArea: boolean;
 
   @Column({ name: 'Address', type: 'nvarchar', length: 200 })
   @Field(() => String)

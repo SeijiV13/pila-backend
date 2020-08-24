@@ -1,7 +1,8 @@
 import { Field, ID, ObjectType } from 'type-graphql';
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Restaurant } from './Restaurant';
 
-@Entity({ name: 'Business', synchronize: true })
+@Entity({ name: 'Business', synchronize: false })
 @ObjectType()
 export class Business extends BaseEntity {
   @PrimaryGeneratedColumn('uuid', { name: 'Id' })
@@ -43,4 +44,7 @@ export class Business extends BaseEntity {
   @Column({ name: 'UpdatedBy', type: 'nvarchar', length: 'MAX', nullable: true })
   @Field(() => String)
   public updatedBy: string;
+
+  @Field(() => [Restaurant])
+  public restaurants: Restaurant[];
 }

@@ -1,10 +1,7 @@
 import { Field, ObjectType } from 'type-graphql';
 
 @ObjectType()
-export class RestaurantType {
+export class SeatingType {
   @Field(() => String)
   public description: string;
-
-  @Field(() => String)
-  public thumbnail: string;
 }

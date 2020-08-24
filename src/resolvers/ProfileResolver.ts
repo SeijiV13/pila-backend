@@ -2,8 +2,10 @@ import { GraphQLUpload } from 'apollo-upload-server';
 import { FileUpload } from 'graphql-upload';
 import { Arg, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql';
 import { UpdateProfileInput } from '../inputs/ProfileInputs/UpdateProfileInput';
+import { getUserId } from '../services/getonlonlineuser-service';
 import { uploadFileToBlob } from '../services/storageblob-service';
 import { Profile } from './../entity/Profile';
+import { GetUserMiddleware } from './../middlewares/GetUserMiddleware';
 import { JwtMiddleware } from './../middlewares/JwtMiddleware';
 @Resolver()
 export class ProfileResolver {
@@ -18,7 +20,7 @@ export class ProfileResolver {
   }
 
   @Mutation(() => Profile)
-  @UseMiddleware(JwtMiddleware)
+  @UseMiddleware(JwtMiddleware, GetUserMiddleware)
   public async updateProfile(@Arg('id') id: string, @Arg('data') data: UpdateProfileInput) {
     const profile = await Profile.findOne({ where: { userId: id } });
 
@@ -26,6 +28,8 @@ export class ProfileResolver {
       throw new Error('Profile not found!');
     }
     Object.assign(profile, data);
+    profile.updatedBy = getUserId();
+    profile.updatedDate = new Date();
     profile.save();
     await profile.save();
     return profile;

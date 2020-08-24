@@ -6,10 +6,28 @@ export class CreateRestaurantInput {
   public businessId: string;
 
   @Field()
+  public name: string;
+
+  @Field()
   public description: string;
 
   @Field()
   public type: string;
+
+  @Field()
+  public cuisines: string;
+
+  @Field()
+  public ambience: string;
+
+  @Field()
+  public seatingType: string;
+
+  @Field()
+  public imageUrl: string;
+
+  @Field()
+  public hasSmokingArea: boolean;
 
   @Field()
   public address: string;

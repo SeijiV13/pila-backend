@@ -1,9 +1,11 @@
 import { GraphQLUpload } from 'apollo-upload-server';
 import { Arg, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql';
 import { UpdateBusinessInput } from '../inputs/BusinessInputs/UpdateBusinessInput';
+import { getUserId } from '../services/getonlonlineuser-service';
 import { uploadFileToBlob } from '../services/storageblob-service';
 import { Business } from './../entity/Business';
 import { CreateBusinessInput } from './../inputs/BusinessInputs/CreateBusinessInput';
+import { GetUserMiddleware } from './../middlewares/GetUserMiddleware';
 import { JwtMiddleware } from './../middlewares/JwtMiddleware';
 
 @Resolver()
@@ -22,12 +24,12 @@ export class BusinessResolver {
   }
 
   @Mutation(() => Business)
-  @UseMiddleware(JwtMiddleware)
+  @UseMiddleware(JwtMiddleware, GetUserMiddleware)
   public async createBusiness(@Arg('data') data: CreateBusinessInput) {
     const restaurant = Business.create(data);
     restaurant.isDeleted = false;
     restaurant.isActive = true;
-    restaurant.createdBy = 'test';
+    restaurant.createdBy = getUserId();
     restaurant.createdDate = new Date();
     restaurant.updatedDate = null;
     restaurant.updatedBy = null;
@@ -38,7 +40,7 @@ export class BusinessResolver {
   }
 
   @Mutation(() => Business)
-  @UseMiddleware(JwtMiddleware)
+  @UseMiddleware(JwtMiddleware, GetUserMiddleware)
   public async updateBusiness(@Arg('id') id: string, @Arg('data') data: UpdateBusinessInput) {
     const restaurant = await Business.findOne({ where: { id } });
 
@@ -47,14 +49,14 @@ export class BusinessResolver {
     }
     Object.assign(restaurant, data);
     restaurant.updatedDate = new Date();
-    restaurant.updatedBy = 'test';
+    restaurant.updatedBy = getUserId();
 
     await restaurant.save();
     return restaurant;
   }
 
   @Mutation(() => Business)
-  @UseMiddleware(JwtMiddleware)
+  @UseMiddleware(JwtMiddleware, GetUserMiddleware)
   public async activateBusiness(@Arg('id') id: string) {
     const restaurant = await Business.findOne({ where: { id } });
 
@@ -62,6 +64,8 @@ export class BusinessResolver {
       throw new Error('Business not found!');
     }
     restaurant.isActive = true;
+    restaurant.updatedDate = new Date();
+    restaurant.updatedBy = getUserId();
     await restaurant.save();
     return restaurant;
   }

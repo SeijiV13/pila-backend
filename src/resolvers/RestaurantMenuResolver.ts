@@ -1,7 +1,9 @@
 import { Arg, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql';
 import { CreateRestaurantMenuInput } from '../inputs/RestaurantMenuInputs/CreateRestaurantMenuInput';
 import { UpdateRestaurantMenuInput } from '../inputs/RestaurantMenuInputs/UpdateRestaurantMenuInput';
+import { getUserId } from '../services/getonlonlineuser-service';
 import { RestaurantMenu } from './../entity/RestaurantMenu';
+import { GetUserMiddleware } from './../middlewares/GetUserMiddleware';
 import { JwtMiddleware } from './../middlewares/JwtMiddleware';
 
 @Resolver()
@@ -26,11 +28,11 @@ export class RestaurantMenuResolver {
   }
 
   @Mutation(() => RestaurantMenu)
-  @UseMiddleware(JwtMiddleware)
+  @UseMiddleware(JwtMiddleware, GetUserMiddleware)
   public async createRestaurantMenu(@Arg('data') data: CreateRestaurantMenuInput) {
     const restaurant = RestaurantMenu.create(data);
     restaurant.isDeleted = false;
-    restaurant.createdBy = 'test';
+    restaurant.createdBy = getUserId();
     restaurant.createdDate = new Date();
     restaurant.updatedDate = null;
     restaurant.updatedBy = null;
@@ -41,7 +43,7 @@ export class RestaurantMenuResolver {
   }
 
   @Mutation(() => RestaurantMenu)
-  @UseMiddleware(JwtMiddleware)
+  @UseMiddleware(JwtMiddleware, GetUserMiddleware)
   public async updateRestaurantMenu(
     @Arg('id') id: string,
     @Arg('data') data: UpdateRestaurantMenuInput
@@ -53,7 +55,7 @@ export class RestaurantMenuResolver {
     }
     Object.assign(restaurant, data);
     restaurant.updatedDate = new Date();
-    restaurant.updatedBy = 'test';
+    restaurant.updatedBy = getUserId();
 
     await restaurant.save();
     return restaurant;

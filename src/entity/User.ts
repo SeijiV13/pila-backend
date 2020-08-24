@@ -3,7 +3,7 @@ import { IsNotEmpty, MaxLength } from 'class-validator';
 import { Field, ID, ObjectType } from 'type-graphql';
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity({ name: 'User', synchronize: true })
+@Entity({ name: 'User', synchronize: false })
 @ObjectType()
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn('uuid', { name: 'Id' })
@@ -31,9 +31,9 @@ export class User extends BaseEntity {
   @Field(() => Date)
   public lastLoggedIn: Date;
 
-  @Column({ name: 'FailedAttempts', type: 'datetime2', nullable: true })
-  @Field(() => Date)
-  public failedAttempts: Date;
+  @Column({ name: 'FailedAttemps', type: 'int' })
+  @Field(() => Number)
+  public failedAttemps: number;
 
   @Column({ name: 'FbId', type: 'nvarchar', length: 250, nullable: true })
   @Field(() => String)

@@ -1,7 +1,7 @@
 import { Field, ObjectType } from 'type-graphql';
 
 @ObjectType()
-export class RestaurantType {
+export class Cuisine {
   @Field(() => String)
   public description: string;
 
