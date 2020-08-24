@@ -22,7 +22,7 @@ export class RestaurantOperatingHourResolver {
   }
 
   @Query(() => [RestaurantOperatingHour])
-  public async getRestaurantOperatingHoursByRestaurant(@Arg('restaurantId') restaurantId: number) {
+  public async getRestaurantOperatingHoursByRestaurant(@Arg('restaurantId') restaurantId: string) {
     let restaurant: RestaurantOperatingHour[];
     restaurant = await RestaurantOperatingHour.find({ where: { restaurantId } });
     return restaurant;
