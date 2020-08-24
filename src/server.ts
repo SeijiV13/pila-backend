@@ -12,6 +12,7 @@ import { RestaurantMenuGroupResolver } from './resolvers/RestaurantMenuGroupReso
 import { RestaurantMenuResolver } from './resolvers/RestaurantMenuResolver';
 import { RestaurantOperatingHourResolver } from './resolvers/RestaurantOperatingHourResolver';
 import { RestaurantResolver } from './resolvers/RestaurantResolver';
+import { RestaurantReviewResolver } from './resolvers/RestaurantReviewResolver';
 import { RestaurantTypeResolver } from './resolvers/RestaurantTypeResolver';
 import { UserResolver } from './resolvers/UserResolver';
 
@@ -33,6 +34,7 @@ async function main() {
       RestaurantMenuGroupCategoryResolver,
       RestaurantMenuGroupResolver,
       RestaurantOperatingHourResolver,
+      RestaurantReviewResolver,
     ],
   });
   const server = new ApolloServer({
