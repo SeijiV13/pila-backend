@@ -94,10 +94,10 @@ export class Restaurant extends BaseEntity {
   public createdBy: string;
 
   @Column({ name: 'UpdatedDate', type: 'datetime2', nullable: true })
-  @Field(() => Date)
+  @Field(() => Date, { nullable: true })
   public updatedDate: Date;
 
   @Column({ name: 'UpdatedBy', type: 'nvarchar', length: 'MAX', nullable: true })
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   public updatedBy: string;
 }

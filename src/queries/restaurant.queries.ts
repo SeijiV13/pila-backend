@@ -21,10 +21,8 @@ export const restaurantQueries = {
     Restaurant.createdBy as createdBy ,
     Restaurant.updatedDate as updatedDate ,
     Restaurant.updatedBy as updatedBy ,
-    RestaurantOperatingHour.OpenTime as openTime, 
-    RestaurantOperatingHour.ClosingTime as closingTime,  
-    RestaurantOperatingHour.Day as Day,
-    (SELECT AVG(CAST(Rating AS DECIMAL(12,1)))  from RestaurantReview Where RestaurantReview.restaurantId = Restaurant.Id GROUP BY RestaurantReview.restaurantId) as rating,
-    (SELECT COUNT(Rating)  from RestaurantReview Where RestaurantReview.restaurantId = Restaurant.Id GROUP BY RestaurantReview.restaurantId) as totalReviews  
+    (SELECT AVG(Rating)  from RestaurantReview Where RestaurantReview.restaurantId = Restaurant.Id GROUP BY RestaurantReview.restaurantId) as rating,
+    (SELECT COUNT(Rating)  from RestaurantReview Where RestaurantReview.restaurantId = Restaurant.Id GROUP BY RestaurantReview.restaurantId) as totalReviews,
+    (SELECT AVG(CAST(Price AS DECIMAL(12,1)))  from RestaurantMenu Where RestaurantMenu.restaurantId = Restaurant.id GROUP BY RestaurantMenu.restaurantId) as averagePrice
     `,
 };

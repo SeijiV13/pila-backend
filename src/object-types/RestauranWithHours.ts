@@ -4,18 +4,15 @@ import { Restaurant } from './../entity/Restaurant';
 
 @ObjectType()
 export class RestaurantWithHours extends Restaurant {
-  @Field(() => String)
-  public closingTime: string;
+  @Field(() => [RestaurantOperatingHour], { nullable: true })
+  public schedule: RestaurantOperatingHour;
 
-  @Field(() => String)
-  public openTime: string;
-
-  @Field(() => String)
-  public day: string;
-
-  @Field(() => Number)
+  @Field(() => Number, { nullable: true })
   public rating: number;
 
-  @Field(() => Number)
+  @Field(() => Number, { nullable: true })
   public totalReviews: number;
+
+  @Field(() => Number, { nullable: true })
+  public averagePrice: number;
 }
