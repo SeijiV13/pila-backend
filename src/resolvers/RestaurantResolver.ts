@@ -15,44 +15,45 @@ import { JwtMiddleware } from './../middlewares/JwtMiddleware';
 import { RestaurantWithHours } from './../object-types/RestauranWithHours';
 @Resolver()
 export class RestaurantResolver {
+  // queryBuilders
+  public async restaurantQuery(id?: string) {
+    let restaurant;
+    const restaurantBuilder = await Restaurant.createQueryBuilder().select(
+      restaurantQueries.selectRestaurant
+    );
+    if (id) {
+      restaurant = await restaurantBuilder.where('id = :id', { id }).execute();
+    } else {
+      restaurant = await restaurantBuilder.execute();
+    }
+    for (const data of restaurant) {
+      data.schedule = await RestaurantOperatingHour.createQueryBuilder()
+        .select(
+          'RestaurantOperatingHour.openTime as openTime, RestaurantOperatingHour.closingTime as closingTime, RestaurantOperatingHour.day as day'
+        )
+        .where(`RestaurantOperatingHour.restaurantId = :id`, { id: data.id })
+        .execute();
+    }
+    return restaurant;
+  }
+
+  // QUERIES
   @Query(() => [RestaurantWithHours])
   public async getRestaurants(@Arg('id') id?: string) {
     let restaurant;
     if (id) {
-      restaurant = await Restaurant.createQueryBuilder()
-        .select(restaurantQueries.selectRestaurant)
-        .leftJoin(
-          RestaurantOperatingHour,
-          'restaurantOperatingHour',
-          'Restaurant.id = restaurantOperatingHour.restaurantId'
-        )
-        .where('Restaurant.id =:id', { id })
-        .execute();
+      restaurant = await this.restaurantQuery(id);
       return restaurant;
     }
 
-    restaurant = await Restaurant.createQueryBuilder()
-      .select(restaurantQueries.selectRestaurant)
-      .leftJoin(
-        RestaurantOperatingHour,
-        'restaurantOperatingHour',
-        'Restaurant.id = restaurantOperatingHour.restaurantId'
-      )
-      .execute();
+    restaurant = await this.restaurantQuery();
     return restaurant;
   }
 
   @Query(() => [RestaurantWithHours])
   public async getNearRestaurants(@Arg('lat') lat: number, @Arg('long') long: number) {
     let restaurant: RestaurantWithHours[];
-    restaurant = await Restaurant.createQueryBuilder()
-      .select(restaurantQueries.selectRestaurant)
-      .leftJoin(
-        RestaurantOperatingHour,
-        'restaurantOperatingHour',
-        'Restaurant.id = restaurantOperatingHour.restaurantId'
-      )
-      .execute();
+    restaurant = await this.restaurantQuery();
     // filter near restaurants
     return restaurant.filter(
       data => distance(lat, long, data.latitudes, data.longitudes, 'K') <= 5
