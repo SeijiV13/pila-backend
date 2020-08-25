@@ -21,7 +21,7 @@ export class RestaurantResolver {
     if (id) {
       restaurant = await Restaurant.createQueryBuilder()
         .select(restaurantQueries.selectRestaurant)
-        .innerJoin(
+        .leftJoin(
           RestaurantOperatingHour,
           'restaurantOperatingHour',
           'Restaurant.id = restaurantOperatingHour.restaurantId'
@@ -33,7 +33,7 @@ export class RestaurantResolver {
 
     restaurant = await Restaurant.createQueryBuilder()
       .select(restaurantQueries.selectRestaurant)
-      .innerJoin(
+      .leftJoin(
         RestaurantOperatingHour,
         'restaurantOperatingHour',
         'Restaurant.id = restaurantOperatingHour.restaurantId'
@@ -47,7 +47,7 @@ export class RestaurantResolver {
     let restaurant: RestaurantWithHours[];
     restaurant = await Restaurant.createQueryBuilder()
       .select(restaurantQueries.selectRestaurant)
-      .innerJoin(
+      .leftJoin(
         RestaurantOperatingHour,
         'restaurantOperatingHour',
         'Restaurant.id = restaurantOperatingHour.restaurantId'
