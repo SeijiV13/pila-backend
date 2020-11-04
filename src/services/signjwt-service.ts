@@ -10,7 +10,8 @@ export function signJwt(user: User): Token {
     config.jwtSecret,
     { expiresIn: '1h' }
   );
-  const tkn = new Token();
+  const tkn = { token: '', userId: '' };
   tkn.token = webtoken;
+  tkn.userId = user.id;
   return tkn;
 }

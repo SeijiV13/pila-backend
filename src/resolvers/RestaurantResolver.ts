@@ -1,6 +1,7 @@
 import { GraphQLUpload } from 'apollo-upload-server';
 import { Arg, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql';
 import { Like } from 'typeorm';
+import { RestaurantGallery } from '../entity/RestaurantGallery';
 import { RestaurantMenu } from '../entity/RestaurantMenu';
 import { RestaurantOperatingHour } from '../entity/RestaurantOperatingHour';
 import { UpdateRestaurantInput } from '../inputs/RestaurantInputs/UpdateRestaurantInput';
@@ -33,7 +34,18 @@ export class RestaurantResolver {
         )
         .where(`RestaurantOperatingHour.restaurantId = :id`, { id: data.id })
         .execute();
+
+      data.gallery = await RestaurantGallery.createQueryBuilder()
+        .select(
+          `RestaurantGallery.originalImageUrl as originalImageUrl, 
+        RestaurantGallery.optimizedImageUrl as optimizedImageUrl`
+        )
+        .where(`RestaurantGallery.isDeleted = 0 AND RestaurantGallery.restaurantId = :id`, {
+          id: data.id,
+        })
+        .execute();
     }
+
     return restaurant;
   }
 
