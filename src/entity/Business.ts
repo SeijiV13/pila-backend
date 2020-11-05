@@ -18,7 +18,7 @@ export class Business extends BaseEntity {
   public description: string;
 
   @Column({ name: 'LogoImageUrl', type: 'nvarchar', length: 300, nullable: true })
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   public logoImageUrl: string;
 
   @Column({ name: 'IsDeleted', type: 'bit' })
