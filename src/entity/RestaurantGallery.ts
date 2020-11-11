@@ -1,33 +1,28 @@
 import { Field, ID, ObjectType } from 'type-graphql';
-import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Restaurant } from './Restaurant';
 
-@Entity({ name: 'Business', synchronize: false })
+@Entity({ name: 'RestaurantGallery', synchronize: false })
 @ObjectType()
-export class Business extends BaseEntity {
+export class RestaurantGallery extends BaseEntity {
   @PrimaryGeneratedColumn('uuid', { name: 'Id' })
   @Field(() => ID)
   public id: string;
 
-  @Column({ name: 'Name', type: 'nvarchar', length: 'MAX' })
-  @Field(() => String)
-  public name: string;
+  @Column({ name: 'RestaurantId', type: 'uniqueidentifier' })
+  public restaurantId: string;
 
-  @Column({ name: 'Description', type: 'nvarchar', length: 'MAX' })
+  @Column({ name: 'OriginalImageUrl', type: 'nvarchar', length: '500', nullable: false })
   @Field(() => String)
-  public description: string;
+  public originalImageUrl: string;
 
-  @Column({ name: 'LogoImageUrl', type: 'nvarchar', length: 300, nullable: true })
-  @Field(() => String, { nullable: true })
-  public logoImageUrl: string;
+  @Column({ name: 'OptimizedImageUrl', type: 'nvarchar', length: '500', nullable: false })
+  @Field(() => String)
+  public optimizedImageUrl: string;
 
   @Column({ name: 'IsDeleted', type: 'bit' })
   @Field(() => Boolean)
   public isDeleted: boolean;
-
-  @Column({ name: 'IsActive', type: 'bit' })
-  @Field(() => Boolean)
-  public isActive: boolean;
 
   @Column({ name: 'CreatedDate', type: 'datetime2' })
   @Field(() => Date)
@@ -44,7 +39,4 @@ export class Business extends BaseEntity {
   @Column({ name: 'UpdatedBy', type: 'nvarchar', length: 'MAX', nullable: true })
   @Field(() => String)
   public updatedBy: string;
-
-  @Field(() => [Restaurant])
-  public restaurants: Restaurant[];
 }

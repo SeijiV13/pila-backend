@@ -4,4 +4,6 @@ import { Field, ObjectType } from 'type-graphql';
 export class Token {
   @Field()
   public token: string;
+  @Field()
+  public userId: string;
 }

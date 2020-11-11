@@ -4,6 +4,7 @@ import { UpdateBusinessInput } from '../inputs/BusinessInputs/UpdateBusinessInpu
 import { getUserId } from '../services/getonlonlineuser-service';
 import { uploadFileToBlob } from '../services/storageblob-service';
 import { Business } from './../entity/Business';
+import { Restaurant } from './../entity/Restaurant';
 import { CreateBusinessInput } from './../inputs/BusinessInputs/CreateBusinessInput';
 import { GetUserMiddleware } from './../middlewares/GetUserMiddleware';
 import { JwtMiddleware } from './../middlewares/JwtMiddleware';
@@ -12,15 +13,23 @@ import { JwtMiddleware } from './../middlewares/JwtMiddleware';
 export class BusinessResolver {
   @Query(() => [Business])
   public async getBusiness(@Arg('id') id?: string) {
-    let restaurant;
+    let restaurants;
+    let business;
     if (id) {
-      restaurant = await Business.find({ where: { id } });
-      return restaurant;
+      business = await Business.find({ where: { id } });
+      if (business.length > 0) {
+        restaurants = await Restaurant.find({ where: { businessId: id } });
+        business[0].restaurants = restaurants;
+        return business;
+      }
     }
 
-    restaurant = await Business.find();
+    business = await Business.find();
+    for (const data of business) {
+      data.restaurants = await Restaurant.find({ where: { businessId: data.id } });
+    }
 
-    return restaurant;
+    return business;
   }
 
   @Mutation(() => Business)

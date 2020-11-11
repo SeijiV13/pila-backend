@@ -1,5 +1,6 @@
 export const restaurantQueries = {
   selectRestaurant: `Restaurant.id as id, 
+    Restaurant.businessId as businessId,
     Restaurant.name as name,
     Restaurant.description as description,
     Restaurant.type as type,
@@ -17,6 +18,7 @@ export const restaurantQueries = {
     Restaurant.latitudes as latitudes ,
     Restaurant.isDeleted as isDeleted ,
     Restaurant.isApproved as isApproved ,
+    Restaurant.isActive as isActive ,
     Restaurant.createdDate as createdDate ,
     Restaurant.createdBy as createdBy ,
     Restaurant.updatedDate as updatedDate ,
