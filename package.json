@@ -19,7 +19,7 @@
       "@types/cors": "^2.8.6",
       "@types/helmet": "0.0.44",
       "@types/jsonwebtoken": "^8.3.3",
-      "apollo-server": "^2.10.0",
+      "apollo-server": "^2.25.3",
       "apollo-server-express": "^2.10.0",
       "apollo-upload-server": "^7.1.0",
       "azure-storage": "^2.10.3",
