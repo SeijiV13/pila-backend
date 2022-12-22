@@ -34,7 +34,7 @@
       "graphql-upload": "^11.0.0",
       "helmet": "^3.20.1",
       "into-stream": "^5.1.1",
-      "jsonwebtoken": "^8.5.1",
+      "jsonwebtoken": "^9.0.0",
       "mssql": "^4.3.8",
       "multer": "^1.4.2",
       "reflect-metadata": "^0.1.10",
